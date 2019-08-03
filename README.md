@@ -1,12 +1,13 @@
 # Mangaupdates-External-Links-BadFix
 Fixes External link script for Mangaupdates in a poor but usable way, I fully welcome a better, more permanent fix to this fix.
+(for use with tampermonkey or whatever user script manager you use)
 
 ![](https://github.com/Reibies/Mangaupdates-External-Links-BadFix/blob/master/image.png)
 
 
 -[Original](https://greasyfork.org/en/scripts/39045-mangaupdates-external-links2)
 
-#[my fix Download](https://github.com/Reibies/Mangaupdates-External-Links-BadFix/raw/master/EXTlink_fix.user.js)
+#[Direct Download](https://github.com/Reibies/Mangaupdates-External-Links-BadFix/raw/master/EXTlink_fix.user.js)
 
 
 
