@@ -14,8 +14,8 @@ Fixes External link script for Mangaupdates in a poor but usable way, I fully we
 if you want to remove a link for example MAL, delete the lines between "//MAL" and "// Mangadex link" you can also add links by copying a search link from the site you want, removing the searched query in that link and replace X with the title you want to show and y with the link, you can look at the contained links for an example.
 
 
-# //x
-# pageNames.push("x");
-# pageAdressBeginning.push("y");
-# searchName.push(encodeURIComponent(title));
-# pageAdressEnding.push("");
+//x <br/>
+pageNames.push("x"); <br/>
+pageAdressBeginning.push("y"); <br/>
+searchName.push(encodeURIComponent(title)); <br/>
+pageAdressEnding.push(""); <br/>
