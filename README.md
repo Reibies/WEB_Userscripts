@@ -1,5 +1,5 @@
 # Mangaupdates-External-Links-BadFix
-Fixes External link script for Mangaupdates in a poor but usable way
+Fixes External link script for Mangaupdates in a poor but usable way, I fully welcome a better, more permanent fix to this fix.
 
 [Original](https://greasyfork.org/en/scripts/39045-mangaupdates-external-links2)
 
