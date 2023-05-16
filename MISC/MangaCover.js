@@ -1,13 +1,10 @@
 // ==UserScript==
-// @name        mangaupdates Cover Preview
-// @namespace   szMangaupdatesCoverPreview
+// @name        mangaupdates Cover Fix
 // @match     https://www.mangaupdates.com/*
 // @icon https://www.mangaupdates.com/favicon.ico
-// @version     2.6.6
+// @version     3.0
 // @description Previews covers in mangaupdates.com when hovering over hyperlinks that lead to serie pages.
 // @author      SZ
-// @supportURL  https://greasyfork.org/en/scripts/26513-mangaupdates-cover-preview/feedback
-// @inject-into content
 // @grant       GM_xmlhttpRequest
 // @grant       GM_addStyle
 // @grant       GM_setValue
