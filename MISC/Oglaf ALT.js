@@ -1,8 +1,11 @@
 // ==UserScript==
 // @name         Oglaf ALT and Title
-// @namespace    https://github.com/Reibies
-// @version      1.0
 // @description  Display hidden text in Oglaf's image
+// @version      1.1
+//
+// @namespace    https://github.com/Reibies
+// @author       Reibies
+//
 // @match        https://www.oglaf.com/*
 // @grant        GM_addStyle
 // ==/UserScript==
@@ -12,9 +15,9 @@ GM_addStyle(`
 
   .button.alt {
     color: #343a44 !important;
-    font-weight: bold !important;
     font-family: 'Chelsea Market', cursive;
     text-indent: 0 !important;
+    text-shadow: 0 0 1px #313842, 0 0 2px #9c9ea0;
   }
 
 #altTextContainer {
