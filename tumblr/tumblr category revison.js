@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Tumblr Blogpack Manager
-// @version      1.1
+// @version      1.2
 // @updateURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js
 // @downloadURL   https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js
 // @description  Manage Tumblr Blogpacks
