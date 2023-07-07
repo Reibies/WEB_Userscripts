@@ -40,8 +40,8 @@
         settingsMenu.style.height = 'auto';
         settingsMenu.style.maxheight = '20%';
         settingsMenu.style.padding = '5px';
-        settingsMenu.style.background = 'rgb(var(--navy))';
-        settingsMenu.style.color = 'rgb(var(--white-on-dark))';
+        settingsMenu.style.background = 'rgb(var(--white))';
+        settingsMenu.style.color = 'rgb(var(--black))';
         settingsMenu.style.border = '1px solid #000000';
         settingsMenu.style.borderRadius = '5px';
         settingsMenu.style.zIndex = '9999';
