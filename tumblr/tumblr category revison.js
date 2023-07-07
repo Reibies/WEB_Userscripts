@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Tumblr Blogpack Manager
-// @version      1.0
+// @version      1.1
+// @updateURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js
+// @downloadURL   https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js
 // @description  Manage Tumblr Blogpacks
 // @author       Reibies
 // @match        https://www.tumblr.com/*
-
 // ==/UserScript==
 
 (function() {
@@ -21,7 +22,7 @@
     settingsButton.addEventListener('click', function() {
         let settingsMenu = document.querySelector('#blogpackSettingsMenu');
         if (settingsMenu) {
-            document.body.removeChild(settingsMenu);
+            settingsMenu.style.display = settingsMenu.style.display === 'none' ? 'block' : 'none';
         } else {
             openSettingsMenu();
         }
@@ -30,6 +31,7 @@
     function openSettingsMenu() {
         let settingsMenu = document.createElement('div');
         settingsMenu.id = 'blogpackSettingsMenu';
+        settingsMenu.style.display = 'block';
         settingsMenu.style.position = 'fixed';
         settingsMenu.style.overflow = 'scroll';
         settingsMenu.style.top = '50px';
@@ -92,7 +94,7 @@
         for (let blogpack of blogpacks) {
             let listItem = document.createElement('li');
             listItem.id = blogpack;
-            
+
             let blogpackLink = document.createElement('a');
             blogpackLink.textContent = blogpack;
             blogpackLink.href = createBlogpackLink(blogpack);
@@ -141,7 +143,7 @@
         let blogpackList = document.querySelector('#blogpackList');
         let listItem = document.createElement('li');
         listItem.id = blogpack;
-        
+
         let blogpackLink = document.createElement('a');
         blogpackLink.textContent = blogpack;
         blogpackLink.href = createBlogpackLink(blogpack);
