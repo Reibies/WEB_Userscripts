@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Tumblr Blogpack Manager
-// @version      1.5
+// @version      1.6
 // @updateURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js
 // @downloadURL   https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js
 // @description  Manage Tumblr Blogpacks
@@ -11,12 +11,19 @@
 (function() {
     'use strict';
 
-    // Add the settings button
-    let topBar = document.querySelector('.rllUD');
-    let settingsButton = document.createElement('button');
-    settingsButton.id = 'blogpackSettingsButton';
-    settingsButton.textContent = '📋';
-    topBar.appendChild(settingsButton);
+// Add the settings button
+let topBar = document.querySelector('.uuWZ2');
+let settingsButton = document.createElement('button');
+settingsButton.id = 'blogpackSettingsButton';
+settingsButton.textContent = '📋';
+settingsButton.style.fontSize = '20px';
+settingsButton.style.color = 'rgb(var(--black))';
+settingsButton.style.background = 'rgb(var(--white))';
+settingsButton.style.borderRadius = '3px';
+settingsButton.style.padding = '3px';
+settingsButton.style.marginRight = '3px'; // Add right margin to the 📋 button
+topBar.insertBefore(settingsButton, topBar.firstChild);
+
 
     // Add event listener to the settings button
     settingsButton.addEventListener('click', function() {
@@ -28,26 +35,35 @@
         }
     });
 
-    function openSettingsMenu() {
-        let settingsMenu = document.createElement('div');
-        settingsMenu.id = 'blogpackSettingsMenu';
-        settingsMenu.style.display = 'block';
-        settingsMenu.style.position = 'fixed';
-        settingsMenu.style.overflow = 'scroll';
-        settingsMenu.style.top = '50px';
-        settingsMenu.style.right = '50%';
-        settingsMenu.style.width = 'auto';
-        settingsMenu.style.height = 'auto';
-        settingsMenu.style.maxHeight = '20%';
-        settingsMenu.style.padding = '5px';
-        settingsMenu.style.background = 'rgb(var(--white))';
-        settingsMenu.style.color = 'rgb(var(--black))';
-        settingsMenu.style.boxShadow = '0px 2px 4px rgb(var(--navy))';
-        settingsMenu.style.borderRadius = '3px';
-        settingsMenu.style.zIndex = '9999';
-        document.body.appendChild(settingsMenu);
-        populateSettingsMenu(settingsMenu);
-    }
+function openSettingsMenu() {
+  let settingsButton = document.querySelector('#blogpackSettingsButton');
+  let settingsMenu = document.querySelector('#blogpackSettingsMenu');
+
+  if (settingsMenu) {
+    settingsMenu.remove();
+    return;
+  }
+
+  settingsMenu = document.createElement('div');
+  settingsMenu.id = 'blogpackSettingsMenu';
+  settingsMenu.style.display = 'block';
+  settingsMenu.style.position = 'absolute';
+  settingsMenu.style.top = `${settingsButton.offsetTop + settingsButton.offsetHeight}px`;
+  settingsMenu.style.left = `${settingsButton.offsetLeft}px`;
+  settingsMenu.style.width = 'auto';
+  settingsMenu.style.height = 'auto';
+  settingsMenu.style.maxHeight = '20%';
+  settingsMenu.style.padding = '5px';
+  settingsMenu.style.background = 'rgb(var(--white))';
+  settingsMenu.style.color = 'rgb(var(--black))';
+  settingsMenu.style.boxShadow = '0px 2px 4px rgb(var(--navy))';
+  settingsMenu.style.borderRadius = '3px';
+  settingsMenu.style.zIndex = '9999';
+
+  document.body.appendChild(settingsMenu);
+  populateSettingsMenu(settingsMenu);
+}
+
 
     function populateSettingsMenu(settingsMenu) {
         let blogpackForm = document.createElement('form');
