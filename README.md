@@ -10,5 +10,10 @@ Allows you to see the hidden text when clicking the "ALT TEXT" button on the web
 ### [Tumblr Blogpack Manager](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js)
 Lets you currate your blogpack lists on tumblr a hidden feature that creates custom feeds based on a comma seperated list of usernames
 
+![list of items saying things like moots, memes, art blogs, inspo](https://github.com/Reibies/WEB_Userscripts/blob/master/tumblr/firefox_RIUA4Zv8Yn.png?width=100) 
+
+![clciking a button that says add to blogpack](https://github.com/Reibies/WEB_Userscripts/blob/master/tumblr/firefox_36q0N8PwVZ.png?width=800)
+
+
 ## Outdated
 These are not to be used at this point
