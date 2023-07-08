@@ -8,7 +8,7 @@ Allows you to see the hidden text when clicking the "ALT TEXT" button on the web
 
 ## tumblr
 ### [Tumblr Blogpack Manager](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js)
-Lets you currate your blogpack lists on tumblr a hidden feature that creates custom feeds based on a comma seperated list of usernames
+Lets you curate your blogpack lists on tumblr a hidden feature that creates custom feeds based on a comma separated list of  usernames.
 
 It's functional but it is bare bones.
 
