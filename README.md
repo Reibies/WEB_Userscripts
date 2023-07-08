@@ -12,10 +12,8 @@ Lets you currate your blogpack lists on tumblr a hidden feature that creates cus
 
 It's functional but it is bare bones.
 
-![list of items saying things like moots, memes, art blogs, inspo](https://github.com/Reibies/WEB_Userscripts/blob/master/tumblr/firefox_RIUA4Zv8Yn.png?width=100) 
-
-![clciking a button that says add to blogpack](https://github.com/Reibies/WEB_Userscripts/blob/master/tumblr/firefox_36q0N8PwVZ.png?width=800)
-
+<img src="https://github.com/Reibies/WEB_Userscripts/blob/master/tumblr/firefox_RIUA4Zv8Yn.png" width="400">
+<img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/firefox_npczlAcVTd.png" width="400">
 
 ## Outdated
 These are not to be used at this point
