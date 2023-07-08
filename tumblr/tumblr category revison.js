@@ -15,13 +15,13 @@
 let topBar = document.querySelector('.uuWZ2');
 let settingsButton = document.createElement('button');
 settingsButton.id = 'blogpackSettingsButton';
-settingsButton.textContent = '📋';
+settingsButton.textContent = '📋'; // Button can be changed
 settingsButton.style.fontSize = '20px';
 settingsButton.style.color = 'rgb(var(--black))';
 settingsButton.style.background = 'rgb(var(--white))';
 settingsButton.style.borderRadius = '3px';
 settingsButton.style.padding = '3px';
-settingsButton.style.marginRight = '3px'; // Add right margin to the 📋 button
+settingsButton.style.marginRight = '3px';
 topBar.insertBefore(settingsButton, topBar.firstChild);
 
 
@@ -83,7 +83,7 @@ function openSettingsMenu() {
         // Add a submit button to the form
         let submitButton = document.createElement('button');
         submitButton.type = 'submit';
-        submitButton.textContent = '➕';
+        submitButton.textContent = '➕';// Button can be changed
         blogpackForm.appendChild(submitButton);
 
         // Add event listener to the form
@@ -124,7 +124,7 @@ function openSettingsMenu() {
             editButton.style.borderRadius = '5px';
             editButton.style.margin = '3px';
             editButton.style.padding = '3px';
-            editButton.textContent = '✏️';
+            editButton.textContent = '✏️';// Button can be changed
             editButton.addEventListener('click', function() {
                 editBlogpack(blogpack);
             });
@@ -135,7 +135,7 @@ function openSettingsMenu() {
             deleteButton.style.borderRadius = '5px';
             deleteButton.style.margin = '3px';
             deleteButton.style.padding = '3px';
-            deleteButton.textContent = '🗑️';
+            deleteButton.textContent = '🗑️';// Button can be changed
             deleteButton.addEventListener('click', function() {
                 deleteBlogpack(blogpack);
             });
@@ -173,7 +173,7 @@ function openSettingsMenu() {
         editButton.style.borderRadius = '3px';
         editButton.style.margin = '3px';
         editButton.style.padding = '3px';
-        editButton.textContent = '✏️';
+        editButton.textContent = '✏️';// Button can be changed
         editButton.addEventListener('click', function() {
             editBlogpack(blogpack);
         });
@@ -184,7 +184,7 @@ function openSettingsMenu() {
         deleteButton.style.borderRadius = '3px';
         deleteButton.style.margin = '3px';
         deleteButton.style.padding = '3px';
-        deleteButton.textContent = '🗑️';
+        deleteButton.textContent = '🗑️';// Button can be changed
         deleteButton.addEventListener('click', function() {
             deleteBlogpack(blogpack);
         });
