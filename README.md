@@ -12,8 +12,7 @@ Lets you currate your blogpack lists on tumblr a hidden feature that creates cus
 
 It's functional but it is bare bones.
 
-<img src="https://github.com/Reibies/WEB_Userscripts/blob/master/tumblr/firefox_RIUA4Zv8Yn.png" width="400">
-<img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/firefox_npczlAcVTd.png" width="400">
+<img src="https://github.com/Reibies/WEB_Userscripts/blob/master/tumblr/firefox_RIUA4Zv8Yn.png" width="400"> <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/firefox_npczlAcVTd.png" width="400">
 
 ## Outdated
 These are not to be used at this point
