@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Tumblr Blogpack Manager
-// @version      1.2
+// @version      1.5
 // @updateURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js
 // @downloadURL   https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js
 // @description  Manage Tumblr Blogpacks
@@ -38,12 +38,12 @@
         settingsMenu.style.right = '50%';
         settingsMenu.style.width = 'auto';
         settingsMenu.style.height = 'auto';
-        settingsMenu.style.maxheight = '20%';
+        settingsMenu.style.maxHeight = '20%';
         settingsMenu.style.padding = '5px';
         settingsMenu.style.background = 'rgb(var(--white))';
         settingsMenu.style.color = 'rgb(var(--black))';
-        settingsMenu.style.border = '1px solid #000000';
-        settingsMenu.style.borderRadius = '5px';
+        settingsMenu.style.boxShadow = '0px 2px 4px rgb(var(--navy))';
+        settingsMenu.style.borderRadius = '3px';
         settingsMenu.style.zIndex = '9999';
         document.body.appendChild(settingsMenu);
         populateSettingsMenu(settingsMenu);
@@ -59,9 +59,9 @@
         blogpackInput.style.margin = '3px';
         blogpackInput.style.borderRadius = '3px';
         blogpackInput.style.border = 'none';
-        blogpackInput.style.color = 'rgba(var(--white-on-dark),.65)';
-        blogpackInput.style.background = 'rgba(var(--white-on-dark),.25)';
-        blogpackInput.placeholder = 'Enter a new blogpack';
+        blogpackInput.style.color = 'rgba(var(--white-on-dark))';
+        blogpackInput.style.background = 'rgba(var(--white-on-dark),.15)';
+        blogpackInput.placeholder = 'New blogpack';
         blogpackForm.appendChild(blogpackInput);
 
         // Add a submit button to the form
@@ -87,7 +87,8 @@
         // Create a list of blogpacks
         let blogpackList = document.createElement('ul');
         blogpackList.id = 'blogpackList';
-        blogpackList.style.listStyleType = 'none'; // Remove bullet points
+        blogpackList.style.paddingLeft = '1.5em'; // Set the desired padding-left
+
         settingsMenu.appendChild(blogpackList);
 
         // Add each blogpack to the list
@@ -153,7 +154,7 @@
 
         // Add a button to edit the blogpack
         let editButton = document.createElement('button');
-        editButton.style.borderRadius = '5px';
+        editButton.style.borderRadius = '3px';
         editButton.style.margin = '3px';
         editButton.style.padding = '3px';
         editButton.textContent = '✏️';
@@ -164,7 +165,7 @@
 
         // Add a button to delete the blogpack
         let deleteButton = document.createElement('button');
-        deleteButton.style.borderRadius = '5px';
+        deleteButton.style.borderRadius = '3px';
         deleteButton.style.margin = '3px';
         deleteButton.style.padding = '3px';
         deleteButton.textContent = '🗑️';
@@ -221,4 +222,127 @@
             }
         }
     }
+
+    // Function to get the blog name from the URL
+    function getBlogName() {
+        const header = document.querySelector('header.uYpYy');
+        const blogNameLink = header.querySelector('a[href^="/"]');
+        const blogURL = new URL(blogNameLink.href);
+        return blogURL.pathname.split('/')[1];
+    }
+
+    // Function to create the "Add to Blogpack" button
+    function createAddToBlogpackButton(){
+        const blogName = getBlogName();
+        const addToBlogpackButton = document.createElement('button');
+        addToBlogpackButton.className = 'TRX6J CxLjL qjTo7 IMvK3 qNKBC';
+        addToBlogpackButton.setAttribute('style', '--button-text:RGB(var(--black));--button-bg:RGB(var(--accent));border-color:rgba(var(--black), 0.40)');
+        const addToBlogpackSpan = document.createElement('span');
+        addToBlogpackSpan.className = 'EvhBA nh7eU';
+        addToBlogpackSpan.style.color = 'var(--blog-background-color)';
+        addToBlogpackSpan.tabIndex = '-1';
+        addToBlogpackSpan.textContent = 'Add to Blogpack';
+
+        addToBlogpackButton.appendChild(addToBlogpackSpan);
+
+        addToBlogpackButton.addEventListener('click', function() {
+            openAddToBlogpackPopup(blogName);
+        });
+
+        const buttonsContainer = document.querySelector('.uk9FI');
+        buttonsContainer.appendChild(addToBlogpackButton);
+    }
+
+  function openAddToBlogpackPopup(blogName) {
+  const blogpacks = JSON.parse(localStorage.getItem('blogpacks')) || [];
+  const checkedBlogpacks = [];
+  let popup = document.querySelector('#addBlogpackPopup');
+
+  if (popup) {
+    // Popup is already open, close it
+    popup.remove();
+    return;
+  }
+
+  popup = document.createElement('div');
+  popup.id = 'addBlogpackPopup';
+  popup.style.position = 'fixed';
+  popup.style.top = '50%';
+  popup.style.left = '50%';
+  popup.style.transform = 'translate(-50%, -50%)';
+  popup.style.maxWidth = '220px';
+  popup.style.padding = '10px';
+  popup.style.background = 'rgb(var(--white))';
+  popup.style.color = 'rgb(var(--black))';
+  popup.style.boxShadow = '0px 2px 4px rgb(var(--navy))';
+  popup.style.borderRadius = '3px';
+  popup.style.zIndex = '9999';
+
+  const blogListContainer = document.createElement('div');
+  blogListContainer.style.maxHeight = '200px';
+  blogListContainer.style.overflowY = 'auto';
+
+  for (const blogpack of blogpacks) {
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.value = blogpack;
+    checkbox.checked = localStorage.getItem(blogpack)?.includes(blogName) || false;
+    checkbox.style.marginRight = '5px';
+    checkedBlogpacks.push(checkbox);
+
+    const label = document.createElement('label');
+    label.textContent = blogpack;
+    label.style.display = 'block';
+    label.style.marginBottom = '5px';
+    label.prepend(checkbox);
+
+    blogListContainer.appendChild(label);
+  }
+
+  const saveButton = document.createElement('button');
+  saveButton.textContent = 'Save';
+  saveButton.style.marginTop = '10px';
+  saveButton.style.borderRadius = '5px';
+  saveButton.style.padding = '5px';
+
+  saveButton.addEventListener('click', function() {
+    const addedBlogpacks = [];
+    const removedBlogpacks = [];
+
+    for (const checkbox of checkedBlogpacks) {
+      const blogpack = checkbox.value;
+      const blogList = localStorage.getItem(blogpack) || '';
+
+      if (checkbox.checked && !blogList.includes(blogName)) {
+        const updatedBlogList = blogList ? `${blogList},${blogName}` : blogName;
+        localStorage.setItem(blogpack, updatedBlogList);
+        addedBlogpacks.push(blogpack);
+      } else if (!checkbox.checked && blogList.includes(blogName)) {
+        const updatedBlogList = blogList.replace(blogName, '').replace(/,,/g, ',').replace(/^,|,$/g, '');
+        localStorage.setItem(blogpack, updatedBlogList);
+        removedBlogpacks.push(blogpack);
+      }
+    }
+
+    let successMessage = '';
+
+    if (addedBlogpacks.length > 0) {
+      successMessage += `${blogName} was added to blogpack(s): ${addedBlogpacks.join(', ')}`;
+    }
+
+    if (removedBlogpacks.length > 0) {
+      successMessage += `${blogName} was removed from blogpack(s): ${removedBlogpacks.join(', ')}`;
+    }
+
+    alert(successMessage);
+    popup.remove();
+  });
+
+  popup.appendChild(blogListContainer);
+  popup.appendChild(saveButton);
+  document.body.appendChild(popup);
+}
+
+    createAddToBlogpackButton();
 })();
+
