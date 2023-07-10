@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Tumblr Blogpack Manager
-// @version      1.6
+// @version      1.7
 // @updateURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js
 // @downloadURL   https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js
 // @description  Manage Tumblr Blogpacks
@@ -62,6 +62,15 @@ function openSettingsMenu() {
 
   document.body.appendChild(settingsMenu);
   populateSettingsMenu(settingsMenu);
+
+  function handleScroll() {
+    const rect = settingsButton.getBoundingClientRect();
+    settingsMenu.style.top = `${rect.bottom + window.scrollY}px`;
+    settingsMenu.style.left = `${rect.left + window.scrollX}px`;
+  }
+
+  window.addEventListener('scroll', handleScroll, true);
+  window.addEventListener('resize', handleScroll, true);
 }
 
 
