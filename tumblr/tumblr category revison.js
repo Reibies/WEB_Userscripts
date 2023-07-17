@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Tumblr Blogpack Manager
-// @version      1.7
+// @version      1.8
 // @updateURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js
 // @downloadURL   https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js
 // @description  Manage Tumblr Blogpacks
@@ -8,70 +8,85 @@
 // @match        https://www.tumblr.com/*
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
 
-// Add the settings button
-let topBar = document.querySelector('.uuWZ2');
-let settingsButton = document.createElement('button');
-settingsButton.id = 'blogpackSettingsButton';
-settingsButton.textContent = '📋'; // Button can be changed
-settingsButton.style.fontSize = '20px';
-settingsButton.style.color = 'rgb(var(--black))';
-settingsButton.style.background = 'rgb(var(--white))';
-settingsButton.style.borderRadius = '3px';
-settingsButton.style.padding = '3px';
-settingsButton.style.marginRight = '3px';
-topBar.insertBefore(settingsButton, topBar.firstChild);
+    // Function to create and populate the settings button
+    function createSettingsButton() {
+        let topBar = document.querySelector('.uuWZ2');
+        let settingsButton = document.createElement('button');
+        settingsButton.id = 'blogpackSettingsButton';
+        settingsButton.textContent = '📋'; // Button can be changed
+        settingsButton.style.fontSize = '20px';
+        settingsButton.style.color = 'rgb(var(--black))';
+        settingsButton.style.background = 'rgb(var(--white))';
+        settingsButton.style.borderRadius = '3px';
+        settingsButton.style.padding = '3px';
+        settingsButton.style.marginRight = '3px';
+        topBar.insertBefore(settingsButton, topBar.firstChild);
+
+        // Add event listener to the settings button
+        settingsButton.addEventListener('click', function() {
+            let settingsMenu = document.querySelector('#blogpackSettingsMenu');
+            if (settingsMenu) {
+                settingsMenu.style.display = settingsMenu.style.display === 'none' ? 'block' : 'none';
+            } else {
+                openSettingsMenu();
+            }
+        });
+    }
+
+    function observePageChanges() {
+        const observer = new MutationObserver(mutations => {
+            if (!document.querySelector('#blogpackSettingsButton')) {
+                createSettingsButton();
+            }
+        });
 
 
-    // Add event listener to the settings button
-    settingsButton.addEventListener('click', function() {
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+    createSettingsButton();
+    observePageChanges();
+
+
+    function openSettingsMenu() {
+        let settingsButton = document.querySelector('#blogpackSettingsButton');
         let settingsMenu = document.querySelector('#blogpackSettingsMenu');
+
         if (settingsMenu) {
-            settingsMenu.style.display = settingsMenu.style.display === 'none' ? 'block' : 'none';
-        } else {
-            openSettingsMenu();
+            settingsMenu.remove();
+            return;
         }
-    });
 
-function openSettingsMenu() {
-  let settingsButton = document.querySelector('#blogpackSettingsButton');
-  let settingsMenu = document.querySelector('#blogpackSettingsMenu');
+        settingsMenu = document.createElement('div');
+        settingsMenu.id = 'blogpackSettingsMenu';
+        settingsMenu.style.display = 'block';
+        settingsMenu.style.position = 'absolute';
+        settingsMenu.style.top = `${settingsButton.offsetTop + settingsButton.offsetHeight}px`;
+        settingsMenu.style.left = `${settingsButton.offsetLeft}px`;
+        settingsMenu.style.width = 'auto';
+        settingsMenu.style.height = 'auto';
+        settingsMenu.style.maxHeight = '20%';
+        settingsMenu.style.padding = '5px';
+        settingsMenu.style.background = 'rgb(var(--white))';
+        settingsMenu.style.color = 'rgb(var(--black))';
+        settingsMenu.style.boxShadow = '0px 2px 4px rgb(var(--navy))';
+        settingsMenu.style.borderRadius = '3px';
+        settingsMenu.style.zIndex = '9999';
 
-  if (settingsMenu) {
-    settingsMenu.remove();
-    return;
-  }
+        document.body.appendChild(settingsMenu);
+        populateSettingsMenu(settingsMenu);
 
-  settingsMenu = document.createElement('div');
-  settingsMenu.id = 'blogpackSettingsMenu';
-  settingsMenu.style.display = 'block';
-  settingsMenu.style.position = 'absolute';
-  settingsMenu.style.top = `${settingsButton.offsetTop + settingsButton.offsetHeight}px`;
-  settingsMenu.style.left = `${settingsButton.offsetLeft}px`;
-  settingsMenu.style.width = 'auto';
-  settingsMenu.style.height = 'auto';
-  settingsMenu.style.maxHeight = '20%';
-  settingsMenu.style.padding = '5px';
-  settingsMenu.style.background = 'rgb(var(--white))';
-  settingsMenu.style.color = 'rgb(var(--black))';
-  settingsMenu.style.boxShadow = '0px 2px 4px rgb(var(--navy))';
-  settingsMenu.style.borderRadius = '3px';
-  settingsMenu.style.zIndex = '9999';
+        function handleScroll() {
+            const rect = settingsButton.getBoundingClientRect();
+            settingsMenu.style.top = `${rect.bottom + window.scrollY}px`;
+            settingsMenu.style.left = `${rect.left + window.scrollX}px`;
+        }
 
-  document.body.appendChild(settingsMenu);
-  populateSettingsMenu(settingsMenu);
-
-  function handleScroll() {
-    const rect = settingsButton.getBoundingClientRect();
-    settingsMenu.style.top = `${rect.bottom + window.scrollY}px`;
-    settingsMenu.style.left = `${rect.left + window.scrollX}px`;
-  }
-
-  window.addEventListener('scroll', handleScroll, true);
-  window.addEventListener('resize', handleScroll, true);
-}
+        window.addEventListener('scroll', handleScroll, true);
+        window.addEventListener('resize', handleScroll, true);
+    }
 
 
     function populateSettingsMenu(settingsMenu) {
@@ -96,7 +111,7 @@ function openSettingsMenu() {
         blogpackForm.appendChild(submitButton);
 
         // Add event listener to the form
-        blogpackForm.addEventListener('submit', function(event) {
+        blogpackForm.addEventListener('submit', function (event) {
             event.preventDefault();
             let newBlogpack = blogpackInput.value;
             let blogList = prompt('Enter a comma separated list of blogs, no spaces:');
@@ -134,7 +149,7 @@ function openSettingsMenu() {
             editButton.style.margin = '3px';
             editButton.style.padding = '3px';
             editButton.textContent = '✏️';// Button can be changed
-            editButton.addEventListener('click', function() {
+            editButton.addEventListener('click', function () {
                 editBlogpack(blogpack);
             });
             listItem.appendChild(editButton);
@@ -145,7 +160,7 @@ function openSettingsMenu() {
             deleteButton.style.margin = '3px';
             deleteButton.style.padding = '3px';
             deleteButton.textContent = '🗑️';// Button can be changed
-            deleteButton.addEventListener('click', function() {
+            deleteButton.addEventListener('click', function () {
                 deleteBlogpack(blogpack);
             });
             listItem.appendChild(deleteButton);
@@ -183,7 +198,7 @@ function openSettingsMenu() {
         editButton.style.margin = '3px';
         editButton.style.padding = '3px';
         editButton.textContent = '✏️';// Button can be changed
-        editButton.addEventListener('click', function() {
+        editButton.addEventListener('click', function () {
             editBlogpack(blogpack);
         });
         listItem.appendChild(editButton);
@@ -194,7 +209,7 @@ function openSettingsMenu() {
         deleteButton.style.margin = '3px';
         deleteButton.style.padding = '3px';
         deleteButton.textContent = '🗑️';// Button can be changed
-        deleteButton.addEventListener('click', function() {
+        deleteButton.addEventListener('click', function () {
             deleteBlogpack(blogpack);
         });
         listItem.appendChild(deleteButton);
@@ -257,7 +272,7 @@ function openSettingsMenu() {
     }
 
     // Function to create the "Add to Blogpack" button
-    function createAddToBlogpackButton(){
+    function createAddToBlogpackButton() {
         const blogName = getBlogName();
         const addToBlogpackButton = document.createElement('button');
         addToBlogpackButton.className = 'TRX6J CxLjL qjTo7 IMvK3 qNKBC';
@@ -270,7 +285,7 @@ function openSettingsMenu() {
 
         addToBlogpackButton.appendChild(addToBlogpackSpan);
 
-        addToBlogpackButton.addEventListener('click', function() {
+        addToBlogpackButton.addEventListener('click', function () {
             openAddToBlogpackPopup(blogName);
         });
 
@@ -278,95 +293,95 @@ function openSettingsMenu() {
         buttonsContainer.appendChild(addToBlogpackButton);
     }
 
-  function openAddToBlogpackPopup(blogName) {
-  const blogpacks = JSON.parse(localStorage.getItem('blogpacks')) || [];
-  const checkedBlogpacks = [];
-  let popup = document.querySelector('#addBlogpackPopup');
+    function openAddToBlogpackPopup(blogName) {
+        const blogpacks = JSON.parse(localStorage.getItem('blogpacks')) || [];
+        const checkedBlogpacks = [];
+        let popup = document.querySelector('#addBlogpackPopup');
 
-  if (popup) {
-    // Popup is already open, close it
-    popup.remove();
-    return;
-  }
+        if (popup) {
+            // Popup is already open, close it
+            popup.remove();
+            return;
+        }
 
-  popup = document.createElement('div');
-  popup.id = 'addBlogpackPopup';
-  popup.style.position = 'fixed';
-  popup.style.top = '50%';
-  popup.style.left = '50%';
-  popup.style.transform = 'translate(-50%, -50%)';
-  popup.style.maxWidth = '220px';
-  popup.style.padding = '10px';
-  popup.style.background = 'rgb(var(--white))';
-  popup.style.color = 'rgb(var(--black))';
-  popup.style.boxShadow = '0px 2px 4px rgb(var(--navy))';
-  popup.style.borderRadius = '3px';
-  popup.style.zIndex = '9999';
+        popup = document.createElement('div');
+        popup.id = 'addBlogpackPopup';
+        popup.style.position = 'fixed';
+        popup.style.top = '50%';
+        popup.style.left = '50%';
+        popup.style.transform = 'translate(-50%, -50%)';
+        popup.style.maxWidth = '220px';
+        popup.style.padding = '10px';
+        popup.style.background = 'rgb(var(--white))';
+        popup.style.color = 'rgb(var(--black))';
+        popup.style.boxShadow = '0px 2px 4px rgb(var(--navy))';
+        popup.style.borderRadius = '3px';
+        popup.style.zIndex = '9999';
 
-  const blogListContainer = document.createElement('div');
-  blogListContainer.style.maxHeight = '200px';
-  blogListContainer.style.overflowY = 'auto';
+        const blogListContainer = document.createElement('div');
+        blogListContainer.style.maxHeight = '200px';
+        blogListContainer.style.overflowY = 'auto';
 
-  for (const blogpack of blogpacks) {
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.value = blogpack;
-    checkbox.checked = localStorage.getItem(blogpack)?.includes(blogName) || false;
-    checkbox.style.marginRight = '5px';
-    checkedBlogpacks.push(checkbox);
+        for (const blogpack of blogpacks) {
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = blogpack;
+            checkbox.checked = localStorage.getItem(blogpack)?.includes(blogName) || false;
+            checkbox.style.marginRight = '5px';
+            checkedBlogpacks.push(checkbox);
 
-    const label = document.createElement('label');
-    label.textContent = blogpack;
-    label.style.display = 'block';
-    label.style.marginBottom = '5px';
-    label.prepend(checkbox);
+            const label = document.createElement('label');
+            label.textContent = blogpack;
+            label.style.display = 'block';
+            label.style.marginBottom = '5px';
+            label.prepend(checkbox);
 
-    blogListContainer.appendChild(label);
-  }
+            blogListContainer.appendChild(label);
+        }
 
-  const saveButton = document.createElement('button');
-  saveButton.textContent = 'Save';
-  saveButton.style.marginTop = '10px';
-  saveButton.style.borderRadius = '5px';
-  saveButton.style.padding = '5px';
+        const saveButton = document.createElement('button');
+        saveButton.textContent = 'Save';
+        saveButton.style.marginTop = '10px';
+        saveButton.style.borderRadius = '5px';
+        saveButton.style.padding = '5px';
 
-  saveButton.addEventListener('click', function() {
-    const addedBlogpacks = [];
-    const removedBlogpacks = [];
+        saveButton.addEventListener('click', function () {
+            const addedBlogpacks = [];
+            const removedBlogpacks = [];
 
-    for (const checkbox of checkedBlogpacks) {
-      const blogpack = checkbox.value;
-      const blogList = localStorage.getItem(blogpack) || '';
+            for (const checkbox of checkedBlogpacks) {
+                const blogpack = checkbox.value;
+                const blogList = localStorage.getItem(blogpack) || '';
 
-      if (checkbox.checked && !blogList.includes(blogName)) {
-        const updatedBlogList = blogList ? `${blogList},${blogName}` : blogName;
-        localStorage.setItem(blogpack, updatedBlogList);
-        addedBlogpacks.push(blogpack);
-      } else if (!checkbox.checked && blogList.includes(blogName)) {
-        const updatedBlogList = blogList.replace(blogName, '').replace(/,,/g, ',').replace(/^,|,$/g, '');
-        localStorage.setItem(blogpack, updatedBlogList);
-        removedBlogpacks.push(blogpack);
-      }
+                if (checkbox.checked && !blogList.includes(blogName)) {
+                    const updatedBlogList = blogList ? `${blogList},${blogName}` : blogName;
+                    localStorage.setItem(blogpack, updatedBlogList);
+                    addedBlogpacks.push(blogpack);
+                } else if (!checkbox.checked && blogList.includes(blogName)) {
+                    const updatedBlogList = blogList.replace(blogName, '').replace(/,,/g, ',').replace(/^,|,$/g, '');
+                    localStorage.setItem(blogpack, updatedBlogList);
+                    removedBlogpacks.push(blogpack);
+                }
+            }
+
+            let successMessage = '';
+
+            if (addedBlogpacks.length > 0) {
+                successMessage += `${blogName} was added to blogpack(s): ${addedBlogpacks.join(', ')}`;
+            }
+
+            if (removedBlogpacks.length > 0) {
+                successMessage += `${blogName} was removed from blogpack(s): ${removedBlogpacks.join(', ')}`;
+            }
+
+            alert(successMessage);
+            popup.remove();
+        });
+
+        popup.appendChild(blogListContainer);
+        popup.appendChild(saveButton);
+        document.body.appendChild(popup);
     }
-
-    let successMessage = '';
-
-    if (addedBlogpacks.length > 0) {
-      successMessage += `${blogName} was added to blogpack(s): ${addedBlogpacks.join(', ')}`;
-    }
-
-    if (removedBlogpacks.length > 0) {
-      successMessage += `${blogName} was removed from blogpack(s): ${removedBlogpacks.join(', ')}`;
-    }
-
-    alert(successMessage);
-    popup.remove();
-  });
-
-  popup.appendChild(blogListContainer);
-  popup.appendChild(saveButton);
-  document.body.appendChild(popup);
-}
 
     createAddToBlogpackButton();
 })();
