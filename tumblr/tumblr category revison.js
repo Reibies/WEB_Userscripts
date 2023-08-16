@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Tumblr Blogpack Manager
-// @version      1.8
+// @version      1.9
 // @updateURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js
 // @downloadURL   https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js
 // @description  Manage Tumblr Blogpacks
@@ -13,7 +13,7 @@
 
     // Function to create and populate the settings button
     function createSettingsButton() {
-        let topBar = document.querySelector('.uuWZ2');
+        let topBar = document.querySelector('.IYrO9');
         let settingsButton = document.createElement('button');
         settingsButton.id = 'blogpackSettingsButton';
         settingsButton.textContent = '📋'; // Button can be changed
