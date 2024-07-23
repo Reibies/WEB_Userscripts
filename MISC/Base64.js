@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         4chan Base64 Decode
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      1.0
 // @description  When selecting Base64 text a button appears to decode
 // @author       Reibies
 // @match        https://boards.4chan.org/*
@@ -34,15 +34,15 @@
         const button = document.createElement('button');
         button.textContent = '🗝️';
         button.style.position = 'absolute';
-        button.style.backgroundColor = '#f5f5f5'; // Matches .dateTime styling
-        button.style.border = '1px solid #ccc'; // Matches .dateTime styling
-        button.style.padding = '2px 6px'; // Matches .dateTime styling
+        button.style.backgroundColor = '#f5f5f5';
+        button.style.border = '1px solid #ccc';
+        button.style.padding = '2px 6px';
         button.style.cursor = 'pointer';
         button.style.zIndex = '1000';
-        button.style.display = 'none'; // Hidden by default
-        button.style.fontSize = '12px'; // Matches .dateTime styling
-        button.style.color = '#333'; // Matches .dateTime styling
-        button.style.borderRadius = '3px'; // Matches .dateTime styling
+        button.style.display = 'none';
+        button.style.fontSize = '12px';
+        button.style.color = '#333';
+        button.style.borderRadius = '3px';
         document.body.appendChild(button);
         return button;
     }
@@ -54,12 +54,12 @@
 
         const selection = window.getSelection();
         if (selection.toString().trim() === '') {
-            button.style.display = 'none'; // Hide if no text is selected
+            button.style.display = 'none';
             return;
         }
 
         // Find the post containing the highlighted text
-        const postElement = Array.from(document.querySelectorAll('.post.reply')).find(post => {
+        const postElement = Array.from(document.querySelectorAll('.postContainer, .post.op')).find(post => {
             return post.contains(window.getSelection().focusNode);
         });
         if (!postElement) return;
@@ -79,18 +79,18 @@
     function decodeSelectedText(postElement) {
         const selection = window.getSelection();
         if (selection.toString().trim()) {
-            const base64Text = selection.toString().replace(/\s+/g, ''); // Remove whitespace
+            const base64Text = selection.toString().replace(/\s+/g, '');
             const decodedText = decodeBase64(base64Text);
             const autoEmbeddedText = autoEmbedLinks(decodedText);
 
             const range = selection.getRangeAt(0);
             const newNode = document.createElement('span');
-            newNode.innerHTML = autoEmbeddedText; // Use innerHTML to allow HTML content
+            newNode.innerHTML = autoEmbeddedText;
             range.deleteContents();
             range.insertNode(newNode);
             selection.removeAllRanges();
         }
-        document.getElementById('decodeButton').style.display = 'none'; // Hide after decoding
+        document.getElementById('decodeButton').style.display = 'none';
     }
 
     // Hide the button when clicking outside the highlighted area
