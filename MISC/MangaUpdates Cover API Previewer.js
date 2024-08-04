@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         MangaUpdates Cover Image Preview
-// @namespace    https://github.com/Reibies
-// @version      1.15
-// @description  Show cover image on hover over MangaUpdates series link with dynamic countdown and caching via the API
+// @namespace    http://tampermonkey.net/
+// @version      1.16
+// @description  Show cover image on hover over MangaUpdates series link with dynamic countdown and caching
 // @author       Reibies
 // @match        https://www.mangaupdates.com/*
 // @icon         https://www.mangaupdates.com/favicon.ico
@@ -66,7 +66,14 @@
 
     function showPreviewImage(event) {
         const linkElement = $(this);
-        const seriesId = extractSeriesIdFromUrl(linkElement.attr('href'));
+        const url = linkElement.attr('href');
+
+        // Exclude URLs with '?act='
+        if (url.includes('?act=')) {
+            return;
+        }
+
+        const seriesId = extractSeriesIdFromUrl(url);
 
         if (!seriesId) {
             return;
