@@ -2,7 +2,7 @@
 // @name         MangaUpdates Cover Image Preview
 // @namespace    https://github.com/Reibies
 // @version      1.15
-// @description  Show cover image on hover over MangaUpdates series link with dynamic countdown and caching
+// @description  Show cover image on hover over MangaUpdates series link with dynamic countdown and caching via the API
 // @author       Reibies
 // @match        https://www.mangaupdates.com/*
 // @icon         https://www.mangaupdates.com/favicon.ico
