@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         MangaUpdates Cover Image Preview
-// @namespace    http://tampermonkey.net/
-// @version      1.11
-// @description  Show cover image on hover over MangaUpdates series link with dynamic countdown
+// @namespace    https://github.com/Reibies
+// @version      1.15
+// @description  Show cover image on hover over MangaUpdates series link with dynamic countdown and caching
 // @author       Reibies
 // @match        https://www.mangaupdates.com/*
 // @icon         https://www.mangaupdates.com/favicon.ico
@@ -15,9 +15,19 @@
     'use strict';
 
     let cooldown = {};
-    const COOLDOWN_TIME = 5000; // 5 seconds cooldown
+    const COOLDOWN_TIME = 1000; // 1 seconds cooldown
+    let cache = {}; // Cache object
+
+    function base36ToDecimal(base36) {
+        return parseInt(base36, 36);
+    }
 
     function fetchCoverImage(seriesId, callback) {
+        if (cache[seriesId]) {
+            // Use cached image
+            return callback(null, cache[seriesId]);
+        }
+
         if (cooldown[seriesId]) {
             const remainingTime = Math.ceil((cooldown[seriesId] - Date.now()) / 1000);
             return callback(`Cooling down for ${remainingTime} seconds.`);
@@ -31,10 +41,16 @@
             url: `https://api.mangaupdates.com/v1/series/${seriesId}`,
             onload: function(response) {
                 if (response.status === 200) {
-                    const data = JSON.parse(response.responseText);
-                    callback(null, data.image.url.original);
+                    try {
+                        const data = JSON.parse(response.responseText);
+                        const imageUrl = data.image.url.original;
+                        cache[seriesId] = imageUrl; // Cache the image URL
+                        callback(null, imageUrl);
+                    } catch (e) {
+                        callback("Error parsing response");
+                    }
                 } else {
-                    callback("Unable to fetch image");
+                    callback(`Error: ${response.status}`);
                 }
             },
             onerror: function() {
@@ -43,15 +59,14 @@
         });
     }
 
-    function extractSeriesIdFromDiv(element) {
-        const parentDiv = $(element).closest('div[id^="r"]');
-        const idMatch = parentDiv.attr('id').match(/^r(\d+)$/);
-        return idMatch ? idMatch[1] : null;
+    function extractSeriesIdFromUrl(url) {
+        const base36EncodedId = url.split('/')[4]; // Extract base 36 encoded ID from URL
+        return base36ToDecimal(base36EncodedId);
     }
 
     function showPreviewImage(event) {
         const linkElement = $(this);
-        const seriesId = extractSeriesIdFromDiv(linkElement);
+        const seriesId = extractSeriesIdFromUrl(linkElement.attr('href'));
 
         if (!seriesId) {
             return;
@@ -127,10 +142,11 @@
     }
 
     $(document).ready(function() {
-        $('body').on('mouseenter', 'a[title="Series Info"]', function(event) {
+        // Use a more general selector to cover all series links
+        $('body').on('mouseenter', 'a[href^="https://www.mangaupdates.com/series/"]', function(event) {
             showPreviewImage.call(this, event);
         });
 
-        $('body').on('mouseleave', 'a[title="Series Info"]', hidePreviewImage);
+        $('body').on('mouseleave', 'a[href^="https://www.mangaupdates.com/series/"]', hidePreviewImage);
     });
 })();
