@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         MangaUpdates Grid View
 // @namespace    http://tampermonkey.net/
-// @version      2.0
-// @description  MangaUpdates grid view with expand
+// @version      4.8
+// @description  MangaUpdates grid view with expand/collapse functionality and additional series details
 // @author       Reibies
 // @icon         https://www.mangaupdates.com/favicon.ico
 // @match        https://www.mangaupdates.com/mylist.html*
 // @match        https://www.mangaupdates.com/author/*
+// @match        https://www.mangaupdates.com/lists/*
 // @grant        GM_xmlhttpRequest
 // @connect      api.mangaupdates.com
 // ==/UserScript==
