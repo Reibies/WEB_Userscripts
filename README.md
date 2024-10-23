@@ -6,9 +6,13 @@ These should be used with something like tampermonkey
 ### [Oglaf ALT and Title text viewer](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/MISC/Oglaf%20ALT.js)
 Allows you to see the hidden text when clicking the "ALT TEXT" button on the webcomic site [Oglaf](https://www.oglaf.com/)
 
+## Mangaupdates
 ### [Mangaupdates Cover Previews](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_hover_cover.js)
 Uses the official API so it's faster and better than the older versions of this but it's bare bones so no options (yet)
 <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/cover_hover.png" width="400">
+
+### My List Cover Grid and External link Buttons
+Currently broken/in dev since update
 
 ## tumblr
 ### [Tumblr Blogpack Manager](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js)
