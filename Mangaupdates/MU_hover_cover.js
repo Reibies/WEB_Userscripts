@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MangaUpdates Hover Preview
 // @namespace    http://tampermonkey.net/
-// @version      1.5
+// @version      1.4
 // @description  Show cover image on hover over MangaUpdates series link
 // @author       Reibies
 // @match        https://www.mangaupdates.com/*
