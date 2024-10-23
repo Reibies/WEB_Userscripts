@@ -6,10 +6,13 @@ These should be used with something like tampermonkey
 ## Mangaupdates
 ### [Mangaupdates Cover Previews](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_hover_cover.js)
 Uses the official API so it's faster and better than the older versions of this but it's bare bones so no options (yet)
+
 <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/cover_hover.png" width="400">
 
 ### [Mangaupdates External Links](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/refs/heads/master/Mangaupdates/MU_Ext_links.js)
 Working but favicons are broken on the buttons
+
+<img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/ExtLinks.png" width="400">
 
 ### My List Cover Grid
 Currently broken/in dev since update
