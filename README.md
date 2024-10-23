@@ -8,7 +8,10 @@ These should be used with something like tampermonkey
 Uses the official API so it's faster and better than the older versions of this but it's bare bones so no options (yet)
 <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/cover_hover.png" width="400">
 
-### My List Cover Grid and External link Buttons
+### [Mangaupdates External Links](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/refs/heads/master/Mangaupdates/MU_Ext_links.js)
+Working but favicons are broken on the buttons
+
+### My List Cover Grid
 Currently broken/in dev since update
 
 ## tumblr
