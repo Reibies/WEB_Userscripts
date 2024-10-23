@@ -2,9 +2,6 @@
 These should be used with something like tampermonkey
 
 
-## Misc
-### [Oglaf ALT and Title text viewer](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/MISC/Oglaf%20ALT.js)
-Allows you to see the hidden text when clicking the "ALT TEXT" button on the webcomic site [Oglaf](https://www.oglaf.com/)
 
 ## Mangaupdates
 ### [Mangaupdates Cover Previews](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_hover_cover.js)
@@ -22,5 +19,7 @@ It's functional but it is bare bones.
 
 <img src="https://github.com/Reibies/WEB_Userscripts/blob/master/tumblr/firefox_RIUA4Zv8Yn.png" width="400"> <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/firefox_npczlAcVTd.png" width="400">
 
-## Outdated
-These are not to be used at this point
+## Misc
+### [Oglaf ALT and Title text viewer](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/MISC/Oglaf%20ALT.js)
+Allows you to see the hidden text when clicking the "ALT TEXT" button on the webcomic site [Oglaf](https://www.oglaf.com/)
+
