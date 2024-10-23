@@ -1,4 +1,4 @@
-# Userscripots for the WEB
+# Userscripts for the WEB
 These should be used with something like tampermonkey
 
 
