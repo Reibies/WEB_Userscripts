@@ -10,7 +10,7 @@ Uses the official API so it's faster and better than the older versions of this 
 <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/cover_hover.png" width="400">
 
 ### [Mangaupdates External Links](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/refs/heads/master/Mangaupdates/MU_Ext_links.js)
-Working but favicons are broken on the buttons
+Takes all links from description and makes them buttons for easy access/ 2 external site searches
 
 <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/ExtLinks_new.png" width="400">
 
