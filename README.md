@@ -12,7 +12,7 @@ Uses the official API so it's faster and better than the older versions of this 
 ### [Mangaupdates External Links](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/refs/heads/master/Mangaupdates/MU_Ext_links.js)
 Working but favicons are broken on the buttons
 
-<img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/ExtLinks.png" width="400">
+<img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/ExtLinks_new.png" width="400">
 
 ### My List Cover Grid
 Currently broken/in dev since update
