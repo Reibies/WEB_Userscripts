@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MangaUpdates Hover Preview
 // @namespace    http://tampermonkey.net/
-// @version      1.4
+// @version      2.0
 // @description  Show cover image on hover over MangaUpdates series link
 // @author       Reibies
 // @match        https://www.mangaupdates.com/*
@@ -25,6 +25,7 @@
 
     let cache = JSON.parse(localStorage.getItem('mangaUpdatesCoverCache')) || {};
     const cooldown = {};
+    let currentPreviewLink = null;
 
     const updateCache = () => {
         const keys = Object.keys(cache);
@@ -62,7 +63,6 @@
                         return callback("Error parsing response");
                     }
                 } else if (response.status === 404) {
-                    // Use placeholder URL if image is not found
                     cache[seriesId] = { url: config.PLACEHOLDER_IMAGE_URL, timestamp: Date.now() };
                     updateCache();
                     return callback("Image not found");
@@ -104,12 +104,25 @@
         };
     };
 
+    const cleanupPreview = () => {
+        const preview = $('#preview-image');
+        if (preview.length) {
+            preview.hide();
+            if (currentPreviewLink) {
+                $(currentPreviewLink).off('mousemove');
+                clearInterval($(currentPreviewLink).data('countdownInterval'));
+                currentPreviewLink = null;
+            }
+        }
+    };
+
     const showPreviewImage = function(event) {
         const linkElement = $(this);
         const url = linkElement.attr('href');
 
         if (url.includes('?act=')) return;
 
+        currentPreviewLink = this;
         const seriesId = extractSeriesIdFromUrl(url);
 
         if (!seriesId) return;
@@ -156,12 +169,29 @@
     };
 
     const hidePreviewImage = function() {
-        $('#preview-image').hide();
-        $(this).off('mousemove');
-        clearInterval($(this).data('countdownInterval'));
+        cleanupPreview();
     };
 
+    // Handle React navigation
+    const originalPushState = history.pushState;
+    const originalReplaceState = history.replaceState;
+
+    history.pushState = function(...args) {
+        originalPushState.apply(this, args);
+        cleanupPreview();
+    };
+
+    history.replaceState = function(...args) {
+        originalReplaceState.apply(this, args);
+        cleanupPreview();
+    };
+
+    window.addEventListener('popstate', cleanupPreview);
+
     $(document).ready(() => {
+        // Clean up on any click
+        $(document).on('click', cleanupPreview);
+
         $('body').on('mouseenter', 'a[href^="https://www.mangaupdates.com/series/"]', function(event) {
             showPreviewImage.call(this, event);
         });
@@ -171,6 +201,6 @@
 
     const extractSeriesIdFromUrl = (url) => {
         const base36EncodedId = url.split('/')[4];
-        return parseInt(base36EncodedId, 36); // Ensure consistent ID extraction
+        return parseInt(base36EncodedId, 36);
     };
 })();
