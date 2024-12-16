@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MangaUpdates Hover Preview
-// @namespace    http://tampermonkey.net/
-// @version      2.0
+// @namespace    https://github.com/Reibies
+// @version      1.21
 // @description  Show cover image on hover over MangaUpdates series link
 // @author       Reibies
 // @match        https://www.mangaupdates.com/*
@@ -137,28 +137,28 @@
             });
         };
 
-        const refreshCountdown = () => {
-            const remainingTime = Math.ceil((cooldown[seriesId] - Date.now()) / 1000);
-            if (remainingTime > 0) {
-                updatePreview(`<div style="width: 200px; height: 300px; display: flex; justify-content: center; align-items: center;"><span>⚠️ Cooling down for ${remainingTime} seconds</span></div>`);
+      const refreshCountdown = () => {
+    const remainingTime = Math.ceil((cooldown[seriesId] - Date.now()) / 1000);
+    if (remainingTime > 0) {
+        updatePreview(`<div style="width: 200px; height: 300px; display: flex; justify-content: center; align-items: center;"><span>⚠️ Cooling down for ${remainingTime} seconds</span></div>`);
+    } else {
+        fetchCoverImage(seriesId, (err, imageUrl) => {
+            if (err || !imageUrl) {
+                updatePreview(`<div style="width: 200px; height: 300px; display: flex; justify-content: center; align-items: center;"><span>⚠️ ${err}</span></div>`);
             } else {
-                fetchCoverImage(seriesId, (err, imageUrl) => {
-                    if (err || !imageUrl) {
-                        updatePreview(`<div style="width: 200px; height: 300px; display: flex; justify-content: center; align-items: center;"><span>⚠️ ${err}</span></div>`);
-                    } else {
-                        updatePreview(`<img src="${imageUrl}" alt="Cover Image" style="max-width: 100%; max-height: 100%;">`);
-                    }
-                });
-                clearInterval(linkElement.data('countdownInterval'));
+                updatePreview(`<img src="${imageUrl}" alt="Cover Image" style="max-width: 100%; max-height: 100%;">`);
             }
-        };
+        });
+        clearInterval(linkElement.data('countdownInterval'));
+    }
+};
 
         if (linkElement.data('countdownInterval')) {
             clearInterval(linkElement.data('countdownInterval'));
         }
 
-        linkElement.data('countdownInterval', setInterval(debounce(refreshCountdown, 1000), 1000));
-        refreshCountdown();
+linkElement.data('countdownInterval', setInterval(refreshCountdown, 1000));
+refreshCountdown();
 
         $(this).on('mousemove', debounce((e) => {
             preview.css({
@@ -172,7 +172,6 @@
         cleanupPreview();
     };
 
-    // Handle React navigation
     const originalPushState = history.pushState;
     const originalReplaceState = history.replaceState;
 
@@ -189,7 +188,6 @@
     window.addEventListener('popstate', cleanupPreview);
 
     $(document).ready(() => {
-        // Clean up on any click
         $(document).on('click', cleanupPreview);
 
         $('body').on('mouseenter', 'a[href^="https://www.mangaupdates.com/series/"]', function(event) {
