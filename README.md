@@ -14,8 +14,10 @@ Takes all links from description and makes them buttons for easy access/ 2 exter
 
 <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/ExtLinks_new.png" width="400">
 
-### My List Cover Grid
-Currently broken/in dev since update
+### [Mangaupdates GridView](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/refs/heads/master/Mangaupdates/MU_GridView.js)
+Currently broken/in dev since update (uploading for now but the settings dont work and it wont load unless you refresh the page sometimes)
+
+<img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/GridView.png" width="800">
 
 ## tumblr
 ### [Tumblr Blogpack Manager](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js)
