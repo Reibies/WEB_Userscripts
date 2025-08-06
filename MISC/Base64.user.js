@@ -2,6 +2,7 @@
 // @name         4chan Base64 Decode
 // @namespace    http://tampermonkey.net/
 // @version      1.0
+// @download     https://github.com/Reibies/WEB_Userscripts/raw/refs/heads/master/MISC/Base64.user.js
 // @description  When selecting Base64 text a button appears to decode
 // @author       Reibies
 // @match        https://boards.4chan.org/*
