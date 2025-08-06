@@ -1,9 +1,12 @@
 // ==UserScript==
 // @name         MangaUpdates Hover Preview
-// @namespace    https://github.com/Reibies
-// @version      1.21
-// @description  Show cover image on hover over MangaUpdates series link
+
 // @author       Reibies
+// @namespace    https://github.com/Reibies
+// @downloadURL  https://github.com/Reibies/WEB_Userscripts/raw/refs/head/master/Mangaupdates/MU_hover_cover.user.js
+// @version      1.21
+
+// @description  Show cover image on hover over MangaUpdates series link
 // @match        https://www.mangaupdates.com/*
 // @icon         https://www.mangaupdates.com/favicon.ico
 // @grant        GM_xmlhttpRequest
