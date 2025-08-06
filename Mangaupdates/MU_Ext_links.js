@@ -1,8 +1,10 @@
 // ==UserScript==
+// @author       Reibies
+// @namespace    https://github.com/Reibies
+// @downloadURL  https://github.com/Reibies/WEB_Userscripts/raw/refs/head/master/Mangaupdates/MU_Ext_links.js
+// @version        v2.1
 // @name           Mangaupdates External Links
-// @namespace      @Reibies
 // @match          https://www.mangaupdates.com/*
-// @version        v2.0
 // @description    Adds external links directly below the "Description" header on MU's series info page.
 // ==/UserScript==
 
