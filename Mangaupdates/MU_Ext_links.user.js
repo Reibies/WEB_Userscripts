@@ -3,8 +3,8 @@
 
 // @author       Reibies
 // @namespace    https://github.com/Reibies
-// @downloadURL  https://github.com/Reibies/WEB_Userscripts/raw/refs/head/master/Mangaupdates/MU_Ext_links.user.js
-
+// @downloadURL  https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_Ext_links.user.js
+// @updateURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_Ext_links.user.js
 // @version        v2.1
 
 // @match          https://www.mangaupdates.com/*
