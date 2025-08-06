@@ -1,9 +1,13 @@
 // ==UserScript==
 // @name         MangaUpdates Grid View
-// @namespace    http://tampermonkey.net/
-// @version      2.0
-// @description  MangaUpdates grid view
+
 // @author       Reibies
+// @namespace    https://github.com/Reibies
+// @downloadURL  https://github.com/Reibies/WEB_Userscripts/raw/refs/head/master/Mangaupdates/MU_GridView.user.js
+
+// @version      2.0
+
+// @description  MangaUpdates grid view
 // @icon         https://www.mangaupdates.com/favicon.ico
 // @match        https://www.mangaupdates.com/lists/*
 // @grant        GM_xmlhttpRequest
