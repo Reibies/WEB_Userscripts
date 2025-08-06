@@ -1,7 +1,9 @@
 // ==UserScript==
 // @name         GitHub Userscript Header Formatter
 
-
+// @author       Reibies
+// @namespace    https://github.com/Reibies
+// @downloadURL  https://github.com/Reibies/WEB_Userscripts/raw/refs/head/master/github/headerFormatter.user.js
 // @version      0.1
 
 // @description  Adds a button to format and copy userscript headers based on the GitHub URL.
