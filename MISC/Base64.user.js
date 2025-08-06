@@ -1,9 +1,11 @@
 // ==UserScript==
+// @name         4chan Base64 Decode
+
 // @author       Reibies
 // @namespace    https://github.com/Reibies
-// @downloadURL  https://github.com/Reibies/WEB_Userscripts/raw/refs/head/master/MISC/Base64.user.js
+// @downloadURL  https://github.com/Reibies/WEB_Userscripts/raw/refs/head/master/MISC/Oglaf%20ALT.user.js
 // @version      1.0
-// @name         4chan Base64 Decode
+
 // @description  When selecting Base64 text a button appears to decode
 // @match        https://boards.4chan.org/*
 // @grant        none
