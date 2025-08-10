@@ -4,7 +4,7 @@
 // @namespace    https://github.com/Reibies
 // @downloadURL  https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/WEB_Userscripts/MISC/FauxShiShi.user.js
 // @updateURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/WEB_Userscripts/MISC/FauxShiShi.user.js
-// @version      1.0
+// @version      1.1
 // @description  Un-Scanlates your manga
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=mangadex.org
 // @match        https://mangadex.org/*
@@ -38,18 +38,18 @@
             textureOpacity: 0.15,
             blendMode: 'luminosity',
             textureSvg: `
-        <svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'>
-            <filter id='noiseFilter'>
-                <feTurbulence type='fractalNoise' baseFrequency='.45' numOctaves='4' stitchTiles='stitch' seed='15'/>
-                <feGaussianBlur stdDeviation='0.2'/>
-            </filter>
-            <rect width='100%' height='100%' filter='url(#noiseFilter)'/>
-        </svg>
-    `
+                <svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'>
+                    <filter id='noiseFilter'>
+                        <feTurbulence type='fractalNoise' baseFrequency='.45' numOctaves='4' stitchTiles='stitch' seed='15'/>
+                        <feGaussianBlur stdDeviation='0.2'/>
+                    </filter>
+                    <rect width='100%' height='100%' filter='url(#noiseFilter)'/>
+                </svg>
+            `
         },
         'e-ink': {
             name: 'E-Ink',
-            filter: 'grayscale(100%) brightness(105%) sepia(5%) hue-rotate(210deg) contrast(115%)',
+            filter: 'grayscale(100%) sepia(19%) hue-rotate(67deg) contrast(94%) brightness(96.8%) blur(0.2px);',
             textureOpacity: 0.4,
             blendMode: 'soft-light',
             textureSvg: `
@@ -80,7 +80,7 @@
         },
         'denoise': {
             name: 'Denoise',
-            filter: 'brightness(101%) contrast(103%)',
+            filter: 'blur(0.5px) brightness(103%) contrast(112%)',
             textureOpacity: 0,
             blendMode: 'normal',
             textureSvg: null
@@ -148,7 +148,7 @@
 
         highlightSelectedPreset(presetKey);
         GM_setValue('selectedPreset', presetKey);
-        console.log(`Faux E-Reader Style Activated: ${preset.name}`);
+        console.log(`Faux-Shi-Shi Style Activated: ${preset.name}`);
     }
 
     function createSettingsMenu() {
