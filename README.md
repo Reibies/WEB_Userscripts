@@ -44,6 +44,8 @@ These should be used with something like tampermonkey. The arrows are to toggle 
 * alter filter for the tinting and contrast effects if you feel like it's subpar on your screen
 
 ![](https://github.com/Reibies/WEB_Userscripts/blob/master/MISC/img/FauxShishi.png?raw=true)
+
+[Manga Source](https://www.mangaupdates.com/series/imd4qxa/tensei-akujo-no-kuro-rekishi)
 </details>
 
 [Oglaf ALT and Title text viewer](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/MISC/Oglaf%20ALT.user.js)
