@@ -35,6 +35,17 @@ These should be used with something like tampermonkey. The arrows are to toggle 
 
 
 ## Misc
+[FauxShishi](https://github.com/Reibies/WEB_Userscripts/raw/refs/heads/master/MISC/FauxShiShi.user.js)
+<details>
+<summary>Lets you simulate real paper scans on—currently—mangadex</summary>
+
+* Modes: Senka, Shimbun, e-ink (bad rn), newsprint, denoise
+
+* alter filter for the tinting and contrast effects if you feel like it's subpar on your screen
+
+![](https://github.com/Reibies/WEB_Userscripts/blob/master/MISC/img/FauxShishi.png?raw=true)
+</details>
+
 [Oglaf ALT and Title text viewer](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/MISC/Oglaf%20ALT.user.js)
 
 Allows you to see the hidden text when clicking the "ALT TEXT" button on the webcomic site [Oglaf](https://www.oglaf.com/)
