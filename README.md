@@ -33,6 +33,7 @@ These should be used with something like tampermonkey. The arrows are to toggle 
 <img src="https://github.com/Reibies/WEB_Userscripts/blob/master/tumblr/firefox_RIUA4Zv8Yn.png" width="400"> <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/firefox_npczlAcVTd.png" width="400">
 </details>
 
+---
 
 ## Misc
 ### [FauxShishi](https://github.com/Reibies/WEB_Userscripts/raw/refs/heads/master/MISC/FauxShiShi.user.js)
