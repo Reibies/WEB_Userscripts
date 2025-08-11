@@ -4,10 +4,12 @@
 // @namespace    https://github.com/Reibies
 // @downloadURL  https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/WEB_Userscripts/MISC/FauxShiShi.user.js
 // @updateURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/WEB_Userscripts/MISC/FauxShiShi.user.js
-// @version      1.1
+// @version      2.0
 // @description  Un-Scanlates your manga
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=mangadex.org
-// @match        https://mangadex.org/*
+// @match        https://mangadex.org/chapter/*
+// @match        https://comick.io/comic/*
+// @match        https://mangaplus.shueisha.co.jp/viewer/*
 // @grant        GM_addStyle
 // @grant        GM_setValue
 // @grant        GM_getValue
@@ -17,10 +19,25 @@
 (function() {
     'use strict';
 
+    const siteConfigs = {
+        'mangadex.org': {
+            containerSelector: '.md--page',
+            imageSelector: '.md--page .img'
+        },
+        'comick.io': {
+            containerSelector: 'div[id^="page"] .flex.justify-center',
+            imageSelector: 'div[id^="page"] .flex.justify-center img'
+        },
+        'mangaplus.shueisha.co.jp': {
+            containerSelector: '.zao-image-container',
+            imageSelector: '.zao-image'
+        }
+    };
+
     const presets = {
         'senka': {
             name: 'Senka',
-            filter: 'contrast(75%) sepia(15%) contrast(105%) hue-rotate(41deg)',
+            filter: 'hue-rotate(-41deg) contrast(75%) sepia(15%) contrast(105%) hue-rotate(41deg)',
             textureOpacity: 0.15,
             blendMode: 'luminosity',
             textureSvg: `
@@ -34,13 +51,13 @@
         },
         'shimbun': {
             name: 'Shimbun',
-            filter: 'contrast(75%) sepia(35%) hue-rotate(23deg)',
+            filter: 'hue-rotate(-23deg) contrast(75%) sepia(35%) hue-rotate(23deg)',
             textureOpacity: 0.15,
             blendMode: 'luminosity',
             textureSvg: `
-                <svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'>
+                <svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'>
                     <filter id='noiseFilter'>
-                        <feTurbulence type='fractalNoise' baseFrequency='.45' numOctaves='4' stitchTiles='stitch' seed='15'/>
+                        <feTurbulence type='fractalNoise' baseFrequency='.45' numOctaves='4' stitchTiles='stitch'/>
                         <feGaussianBlur stdDeviation='0.2'/>
                     </filter>
                     <rect width='100%' height='100%' filter='url(#noiseFilter)'/>
@@ -64,14 +81,14 @@
         },
         'newsprint': {
             name: 'Newsprint',
-            filter: 'sepia(27.5%) hue-rotate(-36deg)',
+            filter: 'hue-rotate(36deg) sepia(13%) hue-rotate(-36deg)',
             textureOpacity: 0.25,
             blendMode: 'multiply',
             textureSvg: `
-                <svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'>
+                <svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'>
                     <filter id='noiseFilter'>
-                        <feTurbulence baseFrequency="0.3,0.3" numOctaves="1" seed="96" type="fractalNoise" result="grain"/>
-                        <feTurbulence baseFrequency="0.08,0.5" numOctaves="5" seed="36" type="fractalNoise" result='fine'/>
+                        <feTurbulence baseFrequency="0.3,0.3" numOctaves="1" type="fractalNoise" result="grain"/>
+                        <feTurbulence baseFrequency="0.08,0.5" numOctaves="5" type="fractalNoise" result='fine'/>
                         <feBlend in='grain' in2='fine' mode='multiply'/>
                     </filter>
                     <rect width='100%' height='100%' filter='url(#noiseFilter)'/>
@@ -111,21 +128,36 @@
             return;
         }
 
+        const hostname = window.location.hostname;
+        let activeConfig = null;
+        for (const siteKey in siteConfigs) {
+            if (hostname.includes(siteKey)) {
+                activeConfig = siteConfigs[siteKey];
+                break;
+            }
+        }
+
+        if (!activeConfig) {
+            return;
+        }
+
         const textureDataUri = getTextureDataUri(preset);
 
         const css = `
-            .md--page, .viewer-image-container {
+            ${activeConfig.containerSelector} {
                 position: relative !important;
-                /* This helps create a stacking context for the blend mode to work reliably */
                 isolation: isolate;
+                width: -moz-max-content !important;
+                width: max-content !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
             }
 
-            .md--page .img,
-            .viewer-image-container img {
+            ${activeConfig.imageSelector} {
                 filter: ${preset.filter};
             }
 
-            .md--page::after, .viewer-image-container::after {
+            ${activeConfig.containerSelector}::after {
                 content: " ";
                 position: absolute;
                 top: 0;
@@ -181,7 +213,9 @@
     }
 
     function highlightSelectedPreset(presetKey) {
-        document.querySelectorAll('#faux-reader-settings-menu button').forEach(btn => {
+        const menu = document.getElementById('faux-reader-settings-menu');
+        if (!menu) return;
+        menu.querySelectorAll('button').forEach(btn => {
             if (btn.getAttribute('data-preset') === presetKey) {
                 btn.style.backgroundColor = '#666';
                 btn.style.fontWeight = 'bold';
