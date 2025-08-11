@@ -46,7 +46,7 @@ These should be used with something like tampermonkey. The arrows are to toggle 
 - e-ink: (bad right now since I don't have an e-reader to cross refrence)
 - Newsprint: Old Sunday funnies style, it leans salmonish and the paper grain is more horizontally coarse and chromatic
 - Denoise: just ups the contrast a bit
-- "Filter:" is what you alter for the tinting and contrast effects if you feel like it's subpar on your screen
+- "Filter:" is what you alter for the tinting and contrast effects if you feel like it's subpar on your screen (My tip is you can stack and re-order filters)
 - This used to be a userstyle that I converted to JS for convenience so this is probably a sub-par way of handling it.
 
 ![](https://github.com/Reibies/WEB_Userscripts/blob/master/MISC/img/FauxShishi.png?raw=true)
