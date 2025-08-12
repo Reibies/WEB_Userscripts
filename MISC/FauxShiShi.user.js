@@ -4,29 +4,34 @@
 // @namespace    https://github.com/Reibies
 // @downloadURL  https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/WEB_Userscripts/MISC/FauxShiShi.user.js
 // @updateURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/WEB_Userscripts/MISC/FauxShiShi.user.js
-// @version      2.0
+// @version      2.1
 // @description  Un-Scanlates your manga
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=mangadex.org
-// @match        https://mangadex.org/chapter/*
-// @match        https://comick.io/comic/*
-// @match        https://mangaplus.shueisha.co.jp/viewer/*
+// @icon         https://64.media.tumblr.com/d02418e50f89ee9923dfed2df3b92de2/f79674bd4b7ceb60-ba/s500x750/06318d7727f891a8ba2b16d2b5a87b2f76946822.pnj
+// @match        https://mangadex.org/*
+// @match        https://comick.io/*
+// @match        https://mangaplus.shueisha.co.jp/*
+// @match        https://weebcentral.com/*
 // @grant        GM_addStyle
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @run-at       document-start
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
 
     const siteConfigs = {
+        'weebcentral.com': {
+            containerSelector: 'section.flex-1',
+            imageSelector: 'section.flex-1 img'
+        },
         'mangadex.org': {
             containerSelector: '.md--page',
             imageSelector: '.md--page .img'
         },
         'comick.io': {
-            containerSelector: 'div[id^="page"] .flex.justify-center',
-            imageSelector: 'div[id^="page"] .flex.justify-center img'
+            containerSelector: 'div.justify-center',
+            imageSelector: 'div.justify-center img'
         },
         'mangaplus.shueisha.co.jp': {
             containerSelector: '.zao-image-container',
@@ -37,9 +42,8 @@
     const presets = {
         'senka': {
             name: 'Senka',
-            filter: 'hue-rotate(-41deg) contrast(75%) sepia(15%) contrast(105%) hue-rotate(41deg)',
-            textureOpacity: 0.15,
-            blendMode: 'luminosity',
+            imageCss: 'filter: hue-rotate(-41deg) contrast(75%) sepia(15%) contrast(105%) hue-rotate(41deg);',
+            textureCss: 'opacity: 0.15; mix-blend-mode: luminosity;',
             textureSvg: `
                 <svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'>
                     <filter id='noiseFilter'>
@@ -51,29 +55,12 @@
         },
         'shimbun': {
             name: 'Shimbun',
-            filter: 'hue-rotate(-23deg) contrast(75%) sepia(35%) hue-rotate(23deg)',
-            textureOpacity: 0.15,
-            blendMode: 'luminosity',
+            imageCss: 'filter: hue-rotate(-23deg) contrast(75%) sepia(35%) hue-rotate(23deg);',
+            textureCss: 'opacity: 0.15; mix-blend-mode: luminosity;',
             textureSvg: `
                 <svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'>
                     <filter id='noiseFilter'>
-                        <feTurbulence type='fractalNoise' baseFrequency='.45' numOctaves='4' stitchTiles='stitch'/>
-                        <feGaussianBlur stdDeviation='0.2'/>
-                    </filter>
-                    <rect width='100%' height='100%' filter='url(#noiseFilter)'/>
-                </svg>
-            `
-        },
-        'e-ink': {
-            name: 'E-Ink',
-            filter: 'grayscale(100%) sepia(19%) hue-rotate(67deg) contrast(94%) brightness(96.8%) blur(0.2px);',
-            textureOpacity: 0.4,
-            blendMode: 'soft-light',
-            textureSvg: `
-                <svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'>
-                    <filter id='noiseFilter'>
-                        <feTurbulence type='fractalNoise' baseFrequency='.15' numOctaves='2' stitchTiles='stitch' />
-                        <feGaussianBlur stdDeviation='0.3'/>
+                        <feTurbulence type='fractalNoise' baseFrequency='.4' numOctaves='3' stitchTiles='stitch' />
                     </filter>
                     <rect width='100%' height='100%' filter='url(#noiseFilter)'/>
                 </svg>
@@ -81,9 +68,8 @@
         },
         'newsprint': {
             name: 'Newsprint',
-            filter: 'hue-rotate(36deg) sepia(13%) hue-rotate(-36deg)',
-            textureOpacity: 0.25,
-            blendMode: 'multiply',
+            imageCss: 'filter: hue-rotate(36deg) sepia(13%) hue-rotate(-36deg);',
+            textureCss: 'opacity: 0.25; mix-blend-mode: multiply;',
             textureSvg: `
                 <svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'>
                     <filter id='noiseFilter'>
@@ -95,26 +81,24 @@
                 </svg>
             `
         },
+        'e-ink': {
+            name: 'E-Ink',
+            imageCss: 'filter: grayscale(100%) sepia(19%) hue-rotate(67deg) contrast(94%) brightness(96.8%) blur(0.2px);',
+            textureCss: 'opacity: 0.4; mix-blend-mode: soft-light;',
+        },
         'denoise': {
             name: 'Denoise',
-            filter: 'blur(0.5px) brightness(103%) contrast(112%)',
-            textureOpacity: 0,
-            blendMode: 'normal',
-            textureSvg: null
+            imageCss: 'filter: blur(0.5px) brightness(103%) contrast(112%);',
         },
         'disable': {
             name: 'Disable',
-            filter: 'none',
-            textureOpacity: 0,
-            blendMode: 'normal',
-            textureSvg: null
         }
     };
 
     let styleElement = null;
 
     function getTextureDataUri(preset) {
-        if (!preset.textureSvg || preset.textureOpacity === 0) {
+        if (!preset.textureSvg) {
             return 'none';
         }
         const encodedSvg = window.btoa(preset.textureSvg);
@@ -145,16 +129,16 @@
 
         const css = `
             ${activeConfig.containerSelector} {
-                position: relative !important;
+                position: relative;
                 isolation: isolate;
-                width: -moz-max-content !important;
-                width: max-content !important;
+                max-width: max-content !important;
                 margin-left: auto !important;
                 margin-right: auto !important;
             }
 
             ${activeConfig.imageSelector} {
-                filter: ${preset.filter};
+                ${preset.imageCss};
+                max-width: 100% !important;
             }
 
             ${activeConfig.containerSelector}::after {
@@ -167,8 +151,7 @@
                 z-index: 1;
                 pointer-events: none;
                 background-image: ${textureDataUri};
-                opacity: ${preset.textureOpacity};
-                mix-blend-mode: ${preset.blendMode};
+                ${preset.textureCss}
             }
         `;
 
