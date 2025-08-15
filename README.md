@@ -19,8 +19,13 @@ These should be used with something like tampermonkey. The arrows are to toggle 
 
 ### [GridView](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/refs/heads/master/Mangaupdates/MU_GridView.user.js)
 <details>
-<summary>Currently broken/in dev since update (uploading for now but the settings dont work and it wont load unless you refresh the page sometimes)</summary>
-<img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/GridView.png" width="800">
+<summary>Allows you to view a more modern(2005) version of mangaupdates! Your lists will have covers and all the same functionality.</summary>
+
+- Version 3.0! Finally working(?)
+- You can update, change score, and move all via the API
+- Clicking the bottom area areound the title acts as the checkbox/select the orange border means it's selected
+- Clicking the upper left or right areas expand input for score and current read
+<img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/GridView_new.png" width="800">
 </details>
 
 ---
