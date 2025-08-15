@@ -1,121 +1,172 @@
 // ==UserScript==
 // @name           Mangaupdates External Links
-
-// @author       Reibies
-// @namespace    https://github.com/Reibies
-// @downloadURL  https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_Ext_links.user.js
-// @updateURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_Ext_links.user.js
-// @version        v2.1
-
+// @author         Reibies
+// @namespace      https://github.com/Reibies
+// @downloadURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_Ext_links.user.js
+// @updateURL      https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_Ext_links.user.js
+// @version        3.0
 // @match          https://www.mangaupdates.com/*
 // @description    Adds external links directly below the "Description" header on MU's series info page.
+// @grant          GM.xmlHttpRequest
 // ==/UserScript==
 
-// favicons as base64 data URLs
-const favicons = {
-    "MangaDex": "data:image/x-icon;base64,AAABAAIAICAAAAEAIACoEAAAJgAAABAQAAABACAAaAQAAM4QAAAoAAAAIAAAAEAAAAABACAAAAAAAAAQAADXCQAA1wkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEJr/x8/Zv9VP2b/VT9m/1U/Zv9VP2b/VT9m/1U/Zv9VP2b/VT9m/1U/Zv9VP2b/VT9m/1U/Zv9VP2b/VUJr/x8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADNm/wVAZ/9vQGf/80Bn//9AZ///QGf//0Bn//9AZ///QGf//0Bn//9AZ///QGf//0Bn//9AZ///QGf//0Bn//9AZ///QGf/9kBo/4BJbf8HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVVX/Bjxp/xE8af8RPGn/ETxp/xE8af8RPGn/ETxp/xE8af8RPGn/ETxp/xE8af8RPGn/ETxp/xE8af8RPGn/ETxp/xE8af8RPGn/EVVV/wYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQGj/LD9n/5k/Z/+ZP2f/mT9n/5k/Z/+ZP2f/mT9n/5k/Z/+ZP2f/mT9n/5k/Z/+ZP2f/mT9n/5k/Z/+ZP2f/mT9n/5k/Z/+ZP2f/mT9n/5k/Z/+ZP2f/mT9n/5lAaP8sAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADhAgCA/Y+7BP2T11j9k9dY/ZPXWP2T11j9k9dY/ZPXWP2T11j9k9dY/ZPXWP2T11j9k9dY/ZPXWP2T11j9k9dY/ZPXWP2T11j9k9dY/ZPXWP2T11j9k9dY/ZPXWP2T11j9j7sI+RoMhAAAAAAAAAAAAAAAAAAAAAAAAAABAQEAEMCsoyDArJ/8wKyf/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKyf/MCsn/zArJ8wzMzMFAAAAAAAAAAAAAAAAAAAAAKOhn7Wxr67/sa+u/7Gvrv+xr67/sa+u/7Gvrv+xr67/sa+u/7Gvrv+wrq3/sK6t/7Curf+xr67/sa+u/7Gvrv+xr67/sa+u/6+tq/9/fHr/MSwo/zArJ/8wKyf/MCsn/zArJ/8wKyf/MCsn/y8rJ3wAAAAAAAAAAAAAAACfm5s96+vr//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/4uHh/9rZ2f/r6ur/8fHx//Hx8f/x8fH/8fHx//Hx8f93dHL/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKyf/MCsn+S4uJBwAAAAAAAAAAL28u9Hx8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8PDw//Hx8f/x8fH/8fHx/97d3f/Z2Nj/3Nzb/97d3f/k5OT/7e3t/9va2v9JREH/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKyf/MConiwAAAACPj48Z6urq/vHx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/7+/u/+Dg3//g4N//8fHx//Hx8f/x8fH/8fHx//Hx8f/s7Oz/8fHx/9zc2/9BPDn/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKyfyKysrDKWjoYjx8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx/+vr6//Z2Nj/397e/+Tk5P/h4eD/4+Pj/+np6f/w8PD/8fHx/5aTkv8wKyf/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKSZKu7q50/Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/v8PH/6erx//Dw8P/l5eT/3dzc/+Tk5P/Z2Nj/29va/97d3f/i4eH/8fHx//Hx8f/n4PP/tJng/zArJ/8wKyf/MCsn/zArJ/8wKyf/MCsn/zErKI3Nzczz8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx/9LZ8/+JoPn/Wnv9/0Jp//9AZ///SW7+/2uJ/P+ktff/6Ory//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx/9TA9/+qi9z/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKyf/MCsnxeLh4fzx8fH/8fHx//Hx8f/x8fH/8fHx/+nr8v+Gnvr/QWj//0Bn//9AZ///QGf//0Bn//9AZ///QGf//0Bn//9RdP7/tML2//Hx8f/x8fH/8fHx//Hx8f/x8fH/1dPX/09GT/8wKyf/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKyfc6+vr//Hx8f/x8fH/8fHx//Hx8f/k5/L/YoH8/0Bn//9AZ///QGf//0Bn//9AZ///QGf//0Bn//9AZ///QGf//0lu/v9oeL7/nKTH/6Gfnf+npaT/8fHx/+3t7f9WUk7/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKyf/MCsn/zArJ/Pq6ur/8fHx//Hx8f/x8fH/7+/x/2uI/P9AZ///QGf//0Bn//9AZ///QGf//0Bn//9AZ///QGf//0Bn//9AZ///QWj//2V+3v9icKz/dn2h/9DPz//x8fH/qqim/zArJ/8wKyf/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKyf/MCsn+OPi4v3x8fH/8fHx//Hx8f+itPf/QGf//0Bn//9AZ///QGf//0Bn//9AZ///QGf//0Bn//9AZ///QGf//0Bn//9AZ///QGf//0Bn//9Kb/7/4uXy//Hx8f9hXVr/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKyfqzs3N9PHx8f/x8fH/6+zx/1B0/v9AZ///QGf//0Bn//9AZ///QGf//0Bn//9AZ///QGf//0Bn//9AZ///QGf//0Bn//9AZ///QGf//0Bn//+Qpvn/7e3t/zcyLv8wKyf/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKyf/MCsn/zArKMi5uLjY8fHx//Hx8f++yfX/QGf//0Bn//9AZ///QGf//0Bn//9AZ///QGf//0Bn//9AZ///QGf//0Bn//9AZ///QGf//0Bn//9AZ///QGf//1R2/f+lpKP/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKyf/MCsn/zArJ/8wKyf/MCsmmaCenZHo6Oj/oqCe/294o/9AZ///QGf//0Bn//9AZ///QGf//0Bn//9ff/3/UHT+/0Bn//9AZ///QGf//0Bn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",
-    "Madokami": "data:image/svg+xml;base64,AAABAAEAMjIAAAEAIADIKAAAFgAAACgAAAAyAAAAZAAAAAEAIAAAAAAAECcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB9fX0AfHx8BImJiSeOjo40h4eHDf///wZQUFBkbGxs9r6+vv7ExMT9w8PD/cPDw/3Dw8P9w8PD/cTExP3CwsL9w8PD/cTExP3Dw8P9w8PD/cLCwv3Dw8P9w8PD/cTExP3ExMT9d3d3/SAgIKxAQEAJREREAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC9vb0ASEhIAGBgYBZ6enpsl5eXc7u7uz2qqqpJurq6dUdHR96SkpL/wcHB/7+/v//CwsL/w8PD/8PDw//Dw8P/w8PD/8HBwf/Dw8P/wsLC/8PDw//ExMT/w8PD/8XFxf+zs7P/paWl/5qamv9ZWVnWbm5uRdHR0QOjo6MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAz8/PAP///wCIiIhHaWlpoHl5eVCUlJQ0lJSUVqqqqj+/v78nVFRUaFtbW7iampr8wsLC/76+vv+/v7//wMDA/7+/v//AwMD/wMDA/8DAwP+/v7//wcHB/8PDw//Dw8P/n5+f/6ysrP/S0tL/srKy/2NjY+6Hh4eJg4ODXFNTUyOZmZkHcnJyAP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPHx8QBkZGQAmpqaRH5+ftSCgoJXfX19LIeHh22NjY0taGhoS4+Pj4G/v7+GqampVl5eXr+tra3/wMDA/7+/v/+/v7//wMDA/8HBwf/AwMD/wcHB/8DAwP/Dw8P/xsbG/6Wlpf+0tLT/+/v7///////R0dH/h4eH94SEhI9+fn5NampqX3x8fIp/f38lAAAAAO3t7QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAl5eXAJ2dnR1zc3OxXl5e63R0dJJ1dXWLeHh4PHBwcH6zs7PP4eHh9Obm5v+8vLyLOjo6Snt7e+7AwMD/vb29/8HBwf/Dw8P/w8PD/8PDw//Dw8P/wcHB/8TExP+2trb/pKSk//f39////////f39/87Ozv+wsLD7mZmZsKWlpZKlpaVki4uLZmdnZ6h9fX02OTk5AO3t7QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJOTkwAAAAAAbW1tYWtra6hPT0+1U1NT/4GBgdp+fn60y8vL7P39/f7/////9vb2/6qqqqZDQ0MLVVVVsq+vr//BwcH/wsLC/8LCwv/Dw8P/wsLC/8PDw//BwcH/xMTE/5eXl//Nzc3/+vr6/9PT0//Ly8v/v7+//8nJyf+RkZGViYmJVJqampbIyMhXeHh4TW5ubq6KioomfHx8AP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUFBQAE9PTxhhYWF/eHh4aHd3d3BtbW3hlJSU/YeHh/+xsbH/6Ojo///////8/Pz/s7Oz3JOTk0J6enqZjo6O/76+vv+/v7//wsLC/8PDw//Dw8P/s7Oz/7W1tf/Dw8P/r6+v/+7u7v/V1dX/2tra/+Hh4f+4uLj/19fX/4+Pj5qKiooMfHx8Wo2NjUr///8Cd3d3Y4uLi62np6ccmZmZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAK6urgAAAAAAX19fTWZmZoKQkJA8enp6eJycnD1ra2vTpaWl/NDQ0P+mpqb/s7Oz/+3t7f/S0tL+xsbG8KioqPVycnL/pKSk/6Wlpf/Dw8P/xMTE/8PDw/+Hh4f/sLCw/8HBwf/Dw8P/8PDw/83Nzf/Q0ND/1NTU/7i4uP/i4uL/nZ2dyo+PjxEAAAACg4ODT4mJiUCHh4cKjo6OjX9/f15gYGADampqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAwMAA0dHRBJCQkCBsbGx3ZWVlZIGBgTGMjIxyo6OjLI+Pj3Z2dnaxpKSk/+bm5v+5ubn/np6e//n5+f/7+/v/wsLC/5CQkP+ampr/gYGB/6urq/+oqKj/mpqa/1tbW/+enp7/vb29/7m5uf/l5eX/yMjI/6ioqP/h4eH/urq6/+jo6P+qqqrfenp6IoqKigClpaUclJSUTbCwsBe6urpehoaGVHt7ezT///8A7+/vAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKWlpQCsrKwclpaWgG9vb3hmZmY2cXFxR5GRkUmHh4dIb29vUKOjo9XS0tL/qKio/93d3f/w8PD//Pz8/+3t7f/Q0ND/urq6/35+fv+IiIj/VVVV/7CwsP+pqan/Y2Nj/4GBgf+Pj4//uLi4//f39//Dw8P/q6ur/+vr6/+7u7v/3t7e/7u7u+6NjY08////FY2NjTCLi4tCgoKCPFVVVa9XV1dUi4uLYaenpxuoqKgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAc3NzAHR0dCF5eXmVeHh4X3JychZubm5doqKiM42NjXBvb29d09PT8v/////t7e3/y8vL/+3t7f/9/f3/9/f3//Pz8//W1tb/enp6/3BwcP+AgID/w8PD/7Ozs/9lZWX/cHBw/3Z2dv/Jycn//////729vf+0tLT/6enp/76+vv/j4+P/5OTk+OXl5b3p6em419fXPpaWlrqMjIzlbm5u83p6eoCAgIAtg4ODSYODgwBWVlYAAAAAAAAAAAAAAAAAAAAAAAAAAABzc3MAfHx8LnV1da6CgoJZra2tK2lpaVuurq5VhISEZIaGhn/e3t7/8fHx/+Tk5P/e3t7//f39//////////////////////+kpKT/VVVV/15eXv9qamr/cHBw/3R0dP/Jycn/c3Nz/9zc3P/z8/P/sbGx/7+/v//b29v/4eHh//z8/P/39/f/+vr6/+3t7fzk5OTg0NDQ+m5ubuWGhoZwgICAppaWlhyRkZFrg4ODFISEhAAAAAAAAAAAAAAAAAAAAAAAAAAAAICAgACRkZFEZmZmmKCgoF+WlpZQb29vgnR0dJdsbGy0f39/3Ly8vP/a2tr/29vb/+3t7f//////8PDw/8vLy//e3t7/8vLy/8DAwP9XV1f/ZWVl/39/f/9KSkr/xMTE/+rq6v9iYmL/c3Nz/4+Pj/9zc3P/k5OT/7S0tP/w8PD/6urq/+fn5//l5eX/6enp/83Nzf+np6f/fX19wXd3d0d4eHikgoKCMZ+fn0iYmJhNcXFxAP///wAAAAAAAAAAAAAAAAAAAAAAmZmZAKysrEOFhYW9UVFRqzs7O9dSUlLvampq7IaGhvSSkpL+wsLC//b29v/g4OD/2NjY/+bm5v+CgoL/UFBQ/09PT/+FhYX/fHx8/0dHR/9FRUX/c3Nz/1hYWP97e3v/bGxs/3V1df+pqan/kJCQ/3d3d/+Ghob/oqKi/+rq6v/W1tb/+vr6//n5+f/e3t7/zc3N/9XV1f+/v7/gbm5uWHR0dId/f39af39/HZCQkEZLS0sA////AAAAAAAAAAAAAAAAAAAAAACqqqoAtbW1Q4GBgbR0dHSvY2Nji29vb516enqXlJSUlpaWltbh4eH/8/Pz/4qKiv9wcHD/ampq/2RkZP/AwMD/SkpK/zAwMP9tbW3/X19f/3R0dP9oaGj/SEhI/zo6Ov8cHBz/WVlZ/8rKyv/Hx8f/urq6/7m5uf+tra3/5OTk/93d3f///////////+rq6v/Y2Nj/5OTk/9jY2PZra2tya2trY3h4eHVnZ2dHnp6eC////wAAAAAAAAAAAAAAAAAAAAAAAAAAAK+vrwCtra04YGBgj3t7e3tycnJQioqKgYKCgoScnJxcgYGBp+bm5v+ZmZn/d3d3/2dnZ/99fX3/srKy/5iYmP95eXn/n5+f/5qamv/Y2Nj/9fX1//j4+P/z8/P/5ubm/6urq/9oaGj/zc3N/8fHx//MzMz/7e3t/9HR0f/n5+f/4ODg////////////8fHx/+Li4v/h4eH/6Ojo/Hx8fJWCgoKBdnZ2fl9fX1yfn58Hw8PDAAAAAAAAAAAAAAAAAAAAAAAAAAAAnZ2dAH9/fw5HR0d6YmJigGpqaliZmZltfX19fXl5eU9FRUXXm5ub/35+fv/X19f/aWlp/3Z2dv+VlZX/ysrK//b29v/z8/P/ubm5//z8/P//////////////////////vLy8/4aGhv/Ly8v/zs7O/8vLy//p6en/0dHR/+np6f/d3d3//f39///////7+/v/6+vr/+Dg4P/v7+//lJSUppOTk5Vubm5zWVlZZJKSkgq8vLwAAAAAAAAAAAAAAAAAAAAAAAAAAADk5OQA////Al5eXmdZWVmBYGBgbpqamll2dnZwX19fgExMTPxLS0v/w8PD/9fX1/+enp7/rq6u//n5+f////////////T09P+5ubn//Pz8/////////////////+bm5v+np6f/lpaW/7e3t//Z2dn/zc3N/6ioqP/T09P/39/f/+jo6P/29vb/+/v7//r6+v/i4uL/vLy8//X19f+jo6OpiIiIgXh4eG9gYGBmgICACLCwsAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///wADAwMASEhIPEtLS3JpaWmRnp6eVnd3d3RVVVWyZ2dn/4mJif/Z2dn/pKSk/6enp/+8vLz//////////////////v7+/8LCwv/Pz8//9PT0//Hx8f/S0tL/sLCw/+Tk5P+srKz/qqqq/+vr6/+0tLT/paWl/5OTk/+2trb//Pz8//z8/P/w8PD/xcXF/+fn5/+tra3/2dnZ/6qqqrV9fX2AdXV1bU9PT1UvLy8EXV1dAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC0tLQAxMTEgQkJCbF9fX5eVlZVViYmJcUZGRsKdnZ3/09PT/8HBwf9mZmb/oKCg/5+fn//+/v7/////////////////9vb2/8rKyv+4uLj/ubm5/8nJyf/y8vL//////8PDw/+YmJj/5+fn/6enp//Z2dn/qKio/9XV1f/x8fH///////39/f++vr7/2NjY/8jIyP+wsLD/srKyun5+foN6enpeampqba2trQjS0tIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqampAJmZmR1iYmKKV1dXiXFxcV+QkJBbPDw8oICAgP/k5OT/zMzM/2lpaf+VlZX/n5+f//39/f////////////7+/v///////v7+//v7+//8/Pz/////////////////5eXl/5SUlP+xsbH/vLy8//v7+/+3t7f/y8vL/97e3v/8/Pz//////+/v7/+4uLj/4+Pj/5KSkv+wsLCvl5eXgo6Ojlpvb29w9/f3A/Dw8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADj4+MA////BFpaWmtaWlqCbGxshomJiUVzc3PfXV1d/6ampv/i4uL/zc3N/35+fv+ZmZn///////39/f/39/f//f39//////////////////////////////////Ly8v/h4eH/p6en/3d3d/+8vLz/8PDw/9fX1/+kpKT/t7e3/+np6f/9/f3//////8rKyv/MzMz/lpaW/pycnJC8vLyHmpqaX3Z2dmVDQ0MA////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABTU1MAb29vSmFhYYJoaGiPcHBwmpaWlvdnZ2fCZWVl8dra2v/k5OT/s7Oz/6ampv//////6enp/5ubm//29vb/////////////////////////////////v7+//3BwcP+2trb/UlJS/5+fn//m5ub/xsbG/729vf+0tLT/zs7O//r6+v//////8vLy/7q6uv+wsLD/ampqdfn5+SCOjo5MbW1tME5OTgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI2NjQCGhoYXZ2dnhl9fX4dycnL1h4eHzmVlZYeAgID54uLi/+Tk5P+8vLz/tLS0///////n5+f/TExM/9XV1f////////////////////////////////+xsbH/S0tL/7q6uv9qamr/6Ojo/+Hh4f/Hx8f/ysrK/6urq/+8vLz/1dXV/+Li4v/g4OD/6Ojo/9fX1/9zc3OwnZ2dE3JyckxZWVkHR0dHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA7e3tAAAAAACBgYFrSUlJc2ZmZuiKioqeXFxcraOjo//l5eX/39/f/7Kysv+5ubn///////T09P9UVFT/yMjI/////////////////////////////////7a2tv9DQ0P/6+vr/9vb2/+5ubn/5+fn/9DQ0P/CwsL/2dnZ/8nJyf/Ly8v/xsbG/9PT0//n5+f/ra2t/2xsbNlgYGBXSUlJRlNTUwAICAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiYmJAJ2dnSNjY2N3ampqdTs7O91NTU3kxMTE/+Pj4//U1NT/hISE/7q6uv//////+Pj4/1tbW//Dw8P////////////8/Pz/+fn5////////////v7+//0RERP/v7+///////97e3v+rq6v/4ODg/9ra2v++vr7/ycnJ/9XV1f/d3d3/39/f/9bW1v/Q0ND/dXV1+E9PT583NzcNLCwsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADPz88AFhYWAFtbWzllZWWWISEh80RERP/X19f/4uLi/93d3f9sbGz/sLCw///////4+Pj/XFxc/7+/v///////+/v7/8LCwv+oqKj/+Pj4///////Nzc3/SEhI/+zs7P//////29vb/9zc3P+Kior/w8PD/+Li4v/c3Nz/2NjY/9XV1f/a2tr/5eXl//Pz8/+qqqq4NTU1QVpaWgAwMDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB6enoA////AWdnZ2E+Pj72XFxc/9/f3//i4uL/4+Pj/6ampv+VlZX///////v7+/+dnZ3/3Nzc//////+7u7v/tra2/52dnf++vr7//////+/v7/+urq7/9vb2//T09P+FhYX/2tra/4eHh/+zs7P/oqKi/8bGxv/i4uL/7+/v//f39//9/f3/4eHh/3V1dZsUFBQFQUFBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAzMzMAMDAwJFlZWeN+fn7/4eHh/+Dg4P/h4eH/2tra/4KCgv/k5OT//f39/+Pj4//5+fn/0dHR/5GRkf/f39//19fX/4yMjP/Kysr//f39//7+/v//////zc3N/1dXV/+3t7f/jIyM/+Tk5P/V1dX/u7u7/7a2tv/FxcX/yMjI/8TExP92dnb8U1NTXzExMQDv7+8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgoKAAICAgYbm5u1r6+vv/f39//3t7e/9/f3//j4+P/q6ur/7Gxsf/y8vL/goKC/97e3v+MjIz/xsbG/+Li4v/h4eH/wcHB/3h4eP/d3d3/+vr6/8LCwv+enp7/dXV1/4eHh/+lpaX/4uLi/9/f3//f39//3t7e/9nZ2f/Z2dn/ycnJ/z09PdQ6OjodRUVFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKioqAAAAAAxycnLE3t7e/+Dg4P/h4eH/4ODg/+Li4v/R0dH/iYmJ/8bGxv+BgYH/q6ur/5mZmf/l5eX/4+Pj/+Hh4f/k5OT/nJyc/4aGhv/n5+f/YWFh/4uLi/+Ojo7/Xl5e/8rKyv/i4uL/4eHh/+Dg4P/g4OD/4eHh/+Pj4/+xsbH/PT09oOHh4QKDg4MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABWVlYAAAAABVhYWLDS0tL/4ODg/9/f3//e3t7/39/f/9/f3/+JiYn/gYGB/5KSkv92dnb/xMTE/+Li4v/g4OD/3t7e/9/f3//S0tL/YGBg/6+vr/9LS0v/mZmZ/5WVlf9XV1f/29vb/93d3f/f39//3d3d/9zc3P/d3d3/3t7e/3Nzc/9mZmZ2AAAAAP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN/f3wAMDAwATU1Ngbq6uv/l5eX/4uLi/+Hh4f/i4uL/4+Pj/7a2tv9eXl7/mJiY/21tbf/f39//4eHh/+Li4v/i4uL/4+Pj/+bm5v+QkJD/X19f/2FhYf+9vb3/rKys/42Njf/g4OD/3t7e/93d3f/d3d3/3Nzc/93d3f/Hx8f/ODg4/1BQUMPKysoUt7e3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////AExMTABXV1c8f39/7N3d3f/j4+P/4eHh/+Li4v/i4uL/1tbW/2dnZ/+pqan/n5+f/+Pj4//h4eH/4ODg/+Li4v/j4+P/5eXl/8nJyf9AQED/lZWV/9vb2//Y2Nj/09PT/93d3f/d3d3/3Nzc/9vb2//d3d3/4ODg/4eHh/9mZmb/Ozs7+TAwMFocHBwAb29vAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAu7u7AOrq6gRTU1NxiYmJ69vb2//i4uL/4uLi/+Hh4f/i4uL/lpaW/8XFxf/e3t7/4ODg/+Li4v/i4uL/4+Pj/+Li4v/j4+P/4uLi/319ff+8vLz/4+Pj/+Hh4f/f39//3Nzc/9zc3P/d3d3/3d3d/9/f3//Hx8f/VFRU/6ioqP90dHT/EBAQxCYmJhUlJSUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOTk5AIiIiAEmJiZnfX19+d/f3//j4+P/4eHh/+Tk5P+xsbH/xsbG/+Xl5f/j4+P/4uLi/+Pj4//j4+P/4eHh/+Li4v/j4+P/09PT/9vb2//i4uL/39/f/+Hh4f/f39//3d3d/93d3f/f39//2tra/29vb/95eXn/u7u7/66urv8zMzP7Dg4OcP///wF+fn4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAXFxcAFxcXBM9PT21j4+P/+Li4v/h4eH/4uLi/9jY2P/c3Nz/4+Pj/+Pj4//j4+P/5OTk/+Pj4//h4eH/4uLi/+Pj4//j4+P/4uLi/+Pj4//i4uL/4+Pj/+Dg4P/e3t7/39/f/9PT0/92dnb/a2tr/7i4uP+7u7v/vb29/4CAgP8WFhblRUVFMj8/PwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8AXFxcAICAgCJJSUm3nZ2d/uPj4//j4+P/4uLi/+Pj4//i4uL/4+Pj/+Li4v/k5OT/4+Pj/+Tk5P/k5OT/4uLi/+Tk5P/j4+P/4uLi/+Li4v/g4OD/39/f/+Li4v/Jycn/ZWVl/3Jycv+3t7f/vLy8/729vf++vr7/tra2/z09Pf8RERGBAAAAAFJSUgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8AKCgoAGFhYRpLS0uvhYWF/9DQ0P/k5OT/4+Pj/+Hh4f/h4eH/4uLi/+Pj4//j4+P/4uLi/+Li4v/i4uL/4uLi/+Li4v/i4uL/4eHh/+Hh4f/Pz8//mpqa/1lZWf9+fn7/urq6/729vf++vr7/wMDA/7+/v//ExMT/ioqK/xYWFtsyMjIlLy8vAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8AAAAAAEhISHV0dHT/g4OD/5ubm//Gxsb/3d3d/+Tk5P/k5OT/5OTk/+Tk5P/j4+P/5eXl/+Pj4//j4+P/4+Pj/9bW1v+ysrL/gYGB/2BgYP9xcXH/paWl/8DAwP+/v7//wcHB/8PDw//Dw8P/wMDA/8HBwf+8vLz/QkJC/xYWFnQAAAAAZWVlAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///wAAAAAAVVVVk5iYmP+7u7v/mJiY/3l5ef90dHT/j4+P/6ysrP+6urr/vb29/7+/v/+1tbX/np6e/4qKiv91dXX/XV1d/yoqKv9ERET/aWlp/319ff+BgYH/g4OD/4+Pj/+Xl5f/oKCg/7Kysv+9vb3/vr6+/8TExP+RkZH/GhoavQMDAwwREREAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////AAAAAABGRkaEmpqa/8LCwv/AwMD/vr6+/6urq/+Ojo7/d3d3/3Jycv9sbGz/RERE/yAgIP8nJyf/aWlp/4GBgf9qamr+Li4u/V9fX/+JiYn/i4uL/4uLi/+NjY3/mZmZ/6Kiov+rq6v/tra2/729vf+9vb3/wMDA/76+vv9OTk7xGhoaTAAAAADu7u4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACYmJgAExMTAD09PYSgoKD/wsLC/7+/v//AwMD/wcHB/8PDw//BwcH/qamp/2xsbP9ZWVn/YGBg/T4+PrVPT0+1VlZWulpaWo9dXV1lREREzVlZWf2VlZX/ubm5/8TExP/Gxsb/yMjI/8fHx//Dw8P/v7+//7y8vP+9vb3/wsLC/5GRkf86Ojq9o6OjDZ2dnQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHZ2dgA/Pz8AQEBAk6ampv/CwsL/wMDA/7+/v/+/v7//tra2/4uLi/9vb2//kpKS/5WVlf9UVFTTbm5uJcLCwgjOzs4I////Af///wClpaUhNDQ0XiMjI5hKSkrPampq7n19ffyPj4//nJyc/6ampv+srKz/srKy/7e3t/+9vb3/s7Oz/0dHR+khISEuKysrAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKysrAPDw8AA9PT2Sq6ur/8LCwv/AwMD/v7+//7Kysv+Xl5f/o6Oj/7+/v/+goKD/SUlJzU5OTjcAAAAA9/f3AAAAAAAAAAAAAAAAAAAAAABUVFQAZGRkAjo6OhQ1NTU2IyMjWDo6OpM9PT22KioqrzIyMtNBQUHsQ0ND505OTudGRkbtODg48FRUVExEREQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB3d3cAAAAAAERERJutra3/v7+//8DAwP/AwMD/u7u7/7+/v//Gxsb/mZmZ/z09PcU0NDQvAAAAAMHBwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+/v4A////AtLS0gcEBAQESEhIGUpKSjACAgIoAAAAKB8fHzKFhYU+1tbWEs3NzQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIyMjABoaGgET09Pr6+vr/+/v7//wcHB/8PDw//ExMT/vLy8/4ODg/47OzvEKSkpLScnJwCEhIQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhISEAFxcXAROTk6wsbGx/76+vv+mpqb/lZWV/4aGhv1eXl7RLCwsgi4uLh0AAAAAysrKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACcnJwApKSkA0tLS6yFhYX/X19f5T4+PrZGRkaGUlJSWzw8PB3///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANjY2AAAAAAASkpKm09PT80+Pj47cnJyCP///wHv7+8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/8AAAAf/wAD/gAAAB//AAP8AAAAB/8AA/gAAAAD/wAD8AAAAAH/AAPwAAAAAP8AA+AAAAAAfwAD4AAAAAA/AAOAAAAAED8AA4AAAAAAHwADgAAAAAAfAAOAAAAAAA8AA4AAAAAADwADgAAAAAAPAAOAAAAAAA8AA4AAAAAADwADgAAAAAAPAAOAAAAAAA8AA8AAAAAADwADwAAAAAAPAAPAAAAAAA8AA8AAAAAAHwAD4AAAAAAfAAPgAAAAAB8AA/AAAAAAPwAD8AAAAAA/AAP4AAAAAH8AA/gAAAAAfwAD/AAAAAD/AAP8AAAAAP8AA/wAAAAA/wAD/AAAAAH/AAP+AAAAAP8AA/4AAAAA/wAD/gAAAAB/AAP/AAAAAD8AA/+AAAAAPwAD/8AAAAA/AAP/4AAAAB8AA//wAAAAHwAD//AAAAAPAAP/8AAAAA8AA//wAAAABwAD//AACAAHAAP/8AD+AAcAA//wAf/gBwAD/+AD////AAP/4Af///8AA//gH////wAD//B/////AAA=="
-};
+(function() {
+    'use strict';
 
-function createStyledLink(href, text, bgColor, hoverColor, color = "#333", iconUrl) {
-    const link = document.createElement('a');
-    link.href = href;
-    link.style.cssText = `
-        display: inline-flex;
-        align-items: center;
-        margin: 2px;
-        padding: 5px 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        background-color: ${bgColor};
-        color: ${color};
-        text-decoration: none;
-        font-size: 14px;
-        vertical-align: middle;
-    `;
+    const faviconCache = new Map();
 
-    if (iconUrl) {
-        const icon = document.createElement('img');
-        icon.src = iconUrl;
-        icon.style.cssText = `
-            width: 16px;
-            height: 16px;
-            margin-right: 5px;
+    function getFaviconAsBase64(url) {
+        if (faviconCache.has(url)) {
+            return Promise.resolve(faviconCache.get(url));
+        }
+
+        return new Promise((resolve, reject) => {
+            GM.xmlHttpRequest({
+                method: 'GET',
+                url: url,
+                responseType: 'blob',
+                onload: function(response) {
+                    if (response.status >= 200 && response.status < 300) {
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                            const base64data = reader.result;
+                            faviconCache.set(url, base64data);
+                            resolve(base64data);
+                        };
+                        reader.onerror = reject;
+                        reader.readAsDataURL(response.response);
+                    } else {
+                        reject(new Error(`HTTP error! status: ${response.status}`));
+                    }
+                },
+                onerror: function(error) {
+                    reject(error);
+                }
+            });
+        });
+    }
+
+    function getFaviconUrl(url) {
+        try {
+            const domain = new URL(url).hostname;
+            return `https://www.google.com/s2/favicons?sz=32&domain=${domain}`;
+        } catch (e) {
+            return '';
+        }
+    }
+
+    const linkStyles = {
+        preset: {
+            bgColor: 'var(--mu-light-bubble-light)',
+            hoverColor: 'var(--mu-background-color-dark)',
+            color: 'var(--mu-text-color)',
+            borderColor: 'var(--mu-border-color)'
+        },
+        extracted: {
+            bgColor: 'var(--mu-light-bubble-dark)',
+            hoverColor: 'var(--mu-background-color-darker)',
+            color: 'var(--mu-text-color-dull)',
+            borderColor: 'none'
+        }
+    };
+
+    function createStyledLink(href, text, style) {
+        const link = document.createElement('a');
+        link.href = href;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.style.cssText = `
+            display: inline-flex;
+            align-items: center;
+            margin: 3px;
+            padding: 4px 8px;
+            border: 1px solid ${style.borderColor};
+            border-radius: 4px;
+            background-color: ${style.bgColor};
+            color: ${style.color};
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.2s;
         `;
-        link.appendChild(icon);
+
+        const icon = document.createElement('img');
+        icon.style.cssText = 'width: 16px; height: 16px; margin-right: 6px; visibility: hidden;';
+        link.prepend(icon);
+
+        const faviconServiceUrl = getFaviconUrl(href);
+        if (faviconServiceUrl) {
+            getFaviconAsBase64(faviconServiceUrl)
+                .then(dataUrl => {
+                    icon.src = dataUrl;
+                    icon.style.visibility = 'visible';
+                })
+                .catch(error => {
+                    console.error('Favicon load failed:', href, error);
+                });
+        }
+
+        link.appendChild(document.createTextNode(text));
+        link.addEventListener('mouseover', () => link.style.backgroundColor = style.hoverColor);
+        link.addEventListener('mouseout', () => link.style.backgroundColor = style.bgColor);
+        return link;
     }
 
-    link.appendChild(document.createTextNode(text));
-    link.addEventListener('mouseover', () => link.style.backgroundColor = hoverColor);
-    link.addEventListener('mouseout', () => link.style.backgroundColor = bgColor);
-    return link;
-}
+    function addExternalLinks() {
+        if (document.querySelector('.mu-external-links-container')) {
+            return;
+        }
 
-// Preset Links
-function addExternalLinks() {
-    if (!window.location.pathname.startsWith('/series/') ||
-        document.querySelector('.external-links-container')) {
-        return;
+        const titleElement = document.querySelector(".releasestitle.tabletitle");
+        const descriptionHeader = document.querySelector('[data-cy="info-box-description-header"]');
+        const descriptionContent = document.querySelector('[data-cy="info-box-description"]');
+
+        if (!titleElement || !descriptionHeader || !descriptionContent) {
+            return;
+        }
+
+        const title = encodeURIComponent(titleElement.innerText.trim());
+        const presetPages = [
+            { name: "MangaDex", url: `https://mangadex.org/search?q=${title}` },
+            { name: "Comick", url: `https://comick.io/search?q=${title}` }
+        ];
+
+        const linksContainer = document.createElement('div');
+        linksContainer.className = "sContent mu-external-links-container";
+
+        const addedUrls = new Set();
+        const fragment = document.createDocumentFragment();
+
+        presetPages.forEach(({ name, url }) => {
+            if (!addedUrls.has(url)) {
+                const link = createStyledLink(url, name, linkStyles.preset);
+                fragment.appendChild(link);
+                addedUrls.add(url);
+            }
+        });
+
+        descriptionContent.querySelectorAll('a[href^="http"]').forEach(existingLink => {
+            if (!addedUrls.has(existingLink.href)) {
+                const link = createStyledLink(existingLink.href, existingLink.innerText.trim(), linkStyles.extracted);
+                fragment.appendChild(link);
+                addedUrls.add(existingLink.href);
+            }
+        });
+
+        if (fragment.hasChildNodes()) {
+            linksContainer.appendChild(fragment);
+            descriptionHeader.parentElement.insertBefore(linksContainer, descriptionContent);
+        }
     }
 
-    const titleElement = document.querySelector(".releasestitle.tabletitle");
-    const descriptionHeader = document.querySelector('.info-box_sCat__QFEaH');
-    const descriptionContent = document.querySelector('.info-box_sContent__CTwJh');
-
-    if (!titleElement || !descriptionHeader || !descriptionContent) return;
-
-    const title = encodeURIComponent(titleElement.innerText);
-    const pages = [
-        { name: "MangaDex", url: `https://mangadex.org/titles/?page=1&q=${title}` },
-        { name: "Madokami", url: `https://manga.madokami.al/search?q=${title}` }//,
-        // { name: "(site name)", url: `(URL)${title}` }
-    ];
-
-    const linksContent = document.createElement('div');
-    linksContent.className = "sContent external-links-container";
-
-    const addedLinks = new Set();
-    const fragment = document.createDocumentFragment();
-
-    pages.forEach(({ name, url }) => {
-        const link = createStyledLink(url, name, "#f8f8f8", "#ddd", "#333", favicons[name]);
-        fragment.appendChild(link);
-        addedLinks.add(url);
-    });
-
-    descriptionContent.querySelectorAll('a[href^="http"]').forEach(link => {
-        if (!addedLinks.has(link.href)) {
-            fragment.appendChild(createStyledLink(link.href, link.innerText, "#d0d8e2", "#a4b1c2", "#52667c"));
-            addedLinks.add(link.href);
+    const observer = new MutationObserver(() => {
+        if (window.location.pathname.startsWith('/series/')) {
+            addExternalLinks();
         }
     });
 
-    linksContent.appendChild(fragment);
-    descriptionHeader.parentNode.insertBefore(linksContent, descriptionContent);
-}
+    observer.observe(document.body, { childList: true, subtree: true });
 
-// Navigation detection using History API
-const originalPushState = history.pushState;
-const originalReplaceState = history.replaceState;
-
-history.pushState = function(...args) {
-    originalPushState.apply(this, args);
-    handleUrlChange();
-};
-
-history.replaceState = function(...args) {
-    originalReplaceState.apply(this, args);
-    handleUrlChange();
-};
-
-function handleUrlChange() {
     if (window.location.pathname.startsWith('/series/')) {
-        requestAnimationFrame(() => {
-            addExternalLinks();
-            setTimeout(addExternalLinks, 100);
-        });
+        setTimeout(addExternalLinks, 500);
     }
-}
-
-window.addEventListener('popstate', handleUrlChange);
-handleUrlChange();
+})();
