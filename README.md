@@ -25,6 +25,7 @@ These should be used with something like tampermonkey. The arrows are to toggle 
 - You can update, change score, and move all via the API
 - Clicking the bottom area areound the title acts as the checkbox/select the orange border means it's selected
 - Clicking the upper left or right areas expand input for score and current read
+- Native MU variables were used for the colors so if you have css that changes things try and ovveride those
 <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/GridView_new.png" width="800">
 </details>
 
