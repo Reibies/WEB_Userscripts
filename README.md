@@ -29,6 +29,13 @@ These should be used with something like tampermonkey. The arrows are to toggle 
 <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/GridView_new.png" width="800">
 </details>
 
+### [CSS! Vanilla Enhanced](https://github.com/Reibies/WEB_Userscripts/raw/refs/heads/master/Mangaupdates/MU:%20Vanilla%20Enhanced.user.css)
+<details>
+<summary>CSS that simply tries to modernize the look of Mangaupdates whithout being an overhaul. WIP. </summary>
+
+- Requirement: Stylus > Manage > Options > Advanced > `Circumvent CSP 'style-src' via adoptedSty­leSheets` enabled
+</details>
+
 ---
 
 ## tumblr
