@@ -4,7 +4,7 @@
 @namespace      https://github.com/Reibies
 @downloadURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/WEB_Userscripts/Mangaupdates/MU: Vanilla Enhanced.user.css
 @updateURL      https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/WEB_Userscripts/Mangaupdates/MU: Vanilla Enhanced.user.css
-@version        2.5
+@version        3.0
 @description    A modern, clean userstyle for MangaUpdates.
 ==/UserStyle== */
 @-moz-document domain("www.mangaupdates.com") {
@@ -14,6 +14,7 @@
     --transition-fast: all 0.2s ease;
     --mu-background-color-warning: #e57880;
     --mu-background-color-good: #b9df8c;
+    --mu-text-color-blue: #89c9b5
   }
 
   .column-common_round_border_gradient_left__b4o9O {
@@ -102,12 +103,7 @@
     filter: drop-shadow(rgb(0, 0, 0, .5) -2px 1px 2px);
   }
 
-  .releasestitle.tabletitle {
-    font-size: 2.5em;
-    font-weight: 800;
-    color: var(--mu-text-color);
-  }
-
+  /*MANGA INFO*/
   .p-1.col-12.d-flex.align-items-center {
     background-color: var(--mu-background-color-dark);
     border: 1px solid var(--mu-border-color);
@@ -155,7 +151,7 @@
   }
 
   .info-box_sCat__QFEaH {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
   }
 
   .col-6.p-2.text > .info-box_sCat__QFEaH:first-of-type {
@@ -164,11 +160,8 @@
 
   .info-box_sCat__QFEaH {
     font-weight: bold;
-    color: var(--mu-link-color);
     border-bottom: 2px solid var(--mu-border-color-light);
-    padding-bottom: 0.5rem;
     margin-bottom: 0.5rem;
-    font-size: 1.1em;
   }
 
   .info-box_sContent__CTwJh {
@@ -176,9 +169,13 @@
     line-height: 1.6;
   }
 
+  .info-box_sContent__CTwJh {
+    overflow: visible;
+  }
+
   .info-box_sContent__CTwJh[data-cy="info-box-image"] img {
     border-radius: var(--radius-round);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
     border: 3px solid var(--mu-background-color-dark);
   }
 
@@ -227,6 +224,8 @@
     align-items: center;
   }
 
+
+  /*Series Info*/
   .p-3 {
     padding: .5rem !important;
   }
@@ -340,6 +339,9 @@
     padding: 4px 10px;
   }
 
+  /*MANGAKA*/
+  /*tbd*/
+  /*WHAT'S NEW*/
   main#mu-main > .p-2.pt-2.pb-2.text > .text.p-2 {
     background-color: var(--mu-background-color-dark);
     border: 1px solid var(--mu-border-color);
@@ -419,6 +421,8 @@
     color: var(--mu-text-color-dull);
   }
 
+
+  /*NAVIGATION*/
   main#mu-main .col-9.col-md-6.text-md-center.specialtext.text-nowrap a,
   main#mu-main .col-9.col-md-6.text-md-center.specialtext.text-nowrap .page-numbers_current_page__Ct_yX {
     padding: 3px 5px;
@@ -456,6 +460,8 @@
     border-radius: var(--radius-square);
   }
 
+
+  /*SEARCH*/
   main#mu-main .inbox[type="text"],
   main#mu-main textarea.inbox {
     background-color: var(--mu-background-color-darker2);
@@ -568,6 +574,7 @@
     display: none;
   }
 
+  /*FORUMS*/
   .forum-common_fcol1__VZ1XW,
   .forum-common_fcol2__kMWnz {
     border: 0 !important;
@@ -627,24 +634,255 @@
     display: none;
   }
 
+  .forum-common_moderator_title__4OOL_,
+  .forum-common_forum_admin_title__n78cI,
   .forum-common_admin_title__jg0lh {
-    background-color: var(--mu-background-color-warning);
     color: white;
     padding: 2px 6px;
     border-radius: var(--radius-square);
   }
 
-  .forum-common_fcol1__VZ1XW div:nth-child(3) {
-    background-color: var(--mu-background-color-dark);
-    padding: 2px 6px;
-    border-radius: var(--radius-square);
-    display: inline-block;
+  .forum-common_admin_title__jg0lh {
+    background-color: var(--mu-background-color-warning);
   }
+
+  .forum-common_forum_admin_title__n78cI {
+    background-color: var( --mu-background-color-good);
+  }
+
+  .forum-common_moderator_title__4OOL_ {
+    background-color: var( --mu-background-color-good);
+  }
+
 
   .forum-common_fcol1__VZ1XW div:nth-child(1) {
     padding-bottom: .5em;
   }
 
+  /*REVIEWS & COMMENTS*/
+  .review-row_review_header__ADLSV {
+    background-color: var(--mu-background-color-dark);
+    padding: 4px 12px;
+    border-radius: var(--radius-square) var(--radius-square) 0 0;
+    font-weight: bold;
+    color: var(--mu-text-color-dull);
+    text-transform: capitalize;
+  }
+
+  .review-row_review_border__wmwhQ {
+    display: none;
+  }
+
+  [class*="review-row_review_box__Tuvad"] {
+    background-color: var(--mu-background-color-alt);
+    border: 1px solid var(--mu-border-color);
+    border-radius: 0 0 var(--radius-round) var(--radius-round);
+    padding: 1rem;
+    border-top: none;
+  }
+
+  [class*="review-row_review_box__Tuvad"] > .row.g-0 {
+    display: grid;
+    grid-template-areas: "title rating" "snippet snippet" "author readmore";
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem 1rem;
+    align-items: center;
+  }
+
+  [class*="review-row_review_box__Tuvad"] [class^="col-"] {
+    width: auto;
+    padding: 0 !important;
+  }
+
+  [class*="review-row_review_box__Tuvad"] .titlesmall {
+    grid-area: title;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--mu-text-color);
+  }
+
+  [class*="review-row_review_box__Tuvad"] .titlebig {
+    font-size: 1.5em;
+    color: var(--mu-text-color-white);
+    background-color: var(--mu-text-color-highlight);
+    border-radius: var(--radius-square);
+    line-height: 1;
+  }
+
+  [class*="review-row_review_box__Tuvad"] .text:has(i) {
+    grid-area: snippet;
+  }
+
+  [class*="review-row_review_box__Tuvad"] .col-10.text:not(:has(i)) {
+    grid-area: author;
+    align-self: end;
+    font-size: 0.9em;
+    color: var(--mu-text-color-faded);
+  }
+
+  [class*="review-row_review_box__Tuvad"] .text-center:has(a) {
+    color: transparent;
+  }
+
+  [class*="review-row_review_box__Tuvad"] .text-center a {
+    color: var(--mu-text-color);
+    padding: 6px 12px;
+    font-weight: bold;
+  }
+
+  .p-1.col-12.text > div:has(img[alt="star"]) img {
+    filter: drop-shadow(0 1px 1px rgb(from var(--mu-gray-shade-10) r g b / .3)) saturate(1.1) brightness(1.1)
+  }
+
+  .p-1.col-12.text > u {
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--mu-text-color-highlight) !important
+  }
+
+  .p-1.col-12.text > br {
+    display: block;
+    content: "";
+    margin-top: .4rem;
+  }
+
+  .mu-markdown_mu_markdown__pqmRi p > strong {
+    display: block;
+    font-size: 1.2em;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--mu-border-color);
+    color: var(--mu-text-color);
+  }
+
+
+  #comments.titlesmall {
+    font-size: 1.5em;
+    margin-top: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--mu-border-color);
+  }
+
+  [data-cy="comment-row"] {
+    background-color: var(--mu-background-color-alt);
+    margin: 1rem;
+    overflow: hidden;
+  }
+
+  [data-cy="comment-row"] > .col-12 > .row.g-0 {
+    background-color: var(--mu-background-color-dark);
+    padding: 0.75rem;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .comment-row_series_comment__9KIMQ {
+    padding: 0 !important;
+  }
+
+  .comment-row_newsname__Lf347 {
+    text-decoration: none !important;
+  }
+
+  .comment-row_comment_rating__iTKnV {
+    font-weight: bold;
+    color: var(--mu-text-color-highlight);
+    background-color: rgb(from var(--mu-text-color-highlight) r g b / .1);
+    border-radius: var(--radius-square);
+    text-shadow: none;
+  }
+
+  [data-cy="comment-row"] .d-flex > .undefined.flex-grow-1 {
+    color: var(--mu-text-color-faded);
+    font-size: 0.9em;
+  }
+
+  [data-cy="comment-row"] > .p-3.col-12 {
+    padding: 1rem 1.25rem !important;
+  }
+
+  [data-cy="comment-row"] .mu-markdown_mu_markdown__pqmRi {
+    line-height: 1.5;
+  }
+
+  /*NEWS*/
+  /*USER CONTROL PANEL*/
+  .color-picker_gbutton__Hi319 {
+    background-color: var(--mu-background-color-darker2);
+    color: var(--mu-text-color-faded);
+    font-size: 0.8em;
+    padding: 3px 8px;
+    transition: var(--transition-fast);
+  }
+
+  .color-picker_gbutton__Hi319:hover {
+    background-color: #435266;
+    border-color: var(--mu-border-color-darker);
+    color: #f0f3f7;
+  }
+
+  /* CONVERSATION */
+  .convo-by-id_row1__NkLIn {
+    font-weight: bold;
+    color: var(--mu-text-color-dull);
+  }
+
+  .convo-message_anchor__qbBZZ + .row.g-0 {
+    display: block;
+    background-color: var(--mu-background-color-alt);
+    border: 1px solid var(--mu-border-color);
+    border-radius: var(--radius-round);
+    margin-top: 1rem;
+    overflow: hidden;
+  }
+
+  .convo-message_anchor__qbBZZ + .row.g-0 .convo-message_left1__tiK_G {
+    width: 100% !important;
+    border: 0 !important;
+    padding: 0 !important;
+  }
+
+  .convo-message_anchor__qbBZZ + .row.g-0 .col-3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem !important;
+    background-color: var(--mu-background-color-dark);
+    border-bottom: 1px solid var(--mu-border-color);
+  }
+
+  .convo-message_anchor__qbBZZ + .row.g-0 .col-3 > span {
+    font-size: 0.9em;
+    color: var(--mu-text-color-faded);
+  }
+
+  .convo-message_anchor__qbBZZ + .row.g-0 .col-3 > a[href="#"] {
+    margin-left: auto;
+    font-size: 0.9em;
+    color: var(--mu-text-color-dull);
+  }
+
+
+  .convo-message_anchor__qbBZZ + .row.g-0 .col-9 {
+    padding: 1rem 1.25rem !important;
+  }
+
+  button.inbox[value="Abandon This Conversation"] {
+    background-color: var(--mu-background-color-warning);
+    border: 1px solid color-mix(in srgb, var(--mu-background-color-warning) 70%, black);
+    color: var(--mu-text-color-white);
+    font-weight: bold;
+    border-radius: var(--radius-square);
+    padding: 6px 12px;
+    transition: filter 0.2s ease;
+  }
+
+  button.inbox[value="Abandon This Conversation"]:hover {
+    filter: brightness(0.9);
+  }
+
+  /*EXTRAS: GRID*/
   .grid-item:hover {
     transform: translateY(-3px);
   }
