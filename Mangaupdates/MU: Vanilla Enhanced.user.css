@@ -2,9 +2,8 @@
 @name           MU: Vanilla Enhanced
 @author         Reibies
 @namespace      https://github.com/Reibies
-@downloadURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/WEB_Userscripts/Mangaupdates/MU: Vanilla Enhanced.user.css
 @updateURL      https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/WEB_Userscripts/Mangaupdates/MU: Vanilla Enhanced.user.css
-@version        3.5
+@version        0.8
 @description    A modern, clean userstyle for MangaUpdates.
 ==/UserStyle== */
 @-moz-document domain("www.mangaupdates.com") {
@@ -191,7 +190,7 @@
   }
 
   #mu-main .p-1.col-12.text {
-    display: none
+    padding: 0px !important
   }
 
   .p-2.pt-2.pb-2.text > .row.g-0:nth-child(3):has(.specialtext) {
