@@ -22,6 +22,7 @@ These should be used with something like tampermonkey. The arrows are to toggle 
 <summary>Allows you to view a more modern(2005) version of mangaupdates! Your lists will have covers and all the same functionality.</summary>
 
 - Version 3.0! Finally working(?)
+- RECOMENDATION: Set all your lists to `Show (under 100) per page` It's not necessary but obviously a grid is longer and more laggy than a list 
 - You can update, change score, and move all via the API
 - Clicking the bottom area areound the title acts as the checkbox/select the orange border means it's selected
 - Clicking the upper left or right areas expand input for score and current read
