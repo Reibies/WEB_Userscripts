@@ -1,3 +1,12 @@
+/* ==UserStyle==
+@name            MU__iconFixes.user
+@namespace       https://github.com/Reibies
+@author          Reibies
+@updateURL       https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/mangaupdates/MU__iconFixes.user.css
+@version         1.0
+@description     Replaces various text and icon elements to customizable bootstrap ones.
+==/UserStyle== */
+@-moz-document domain("www.mangaupdates.com") {
     /* -- Hide & Minimize */
     img[src*="increase"],
     img[src*="decrease"],
@@ -139,3 +148,4 @@
         display: flex;
         align-items: center;
     }
+}
