@@ -1,151 +1,158 @@
 /* ==UserStyle==
 @name            MU__iconFixes.user
-@namespace       https://github.comcom/Reibies
+@namespace       https://github.com/Reibies
 @author          Reibies
 @updateURL       https://github.com/Reibies/WEB_Userscripts/raw/refs/heads/master/Mangaupdates/MU__iconFixes.user.css
-@version         1.0
+@version         1.2
 @description     Replaces various text and icon elements to customizable bootstrap ones.
 ==/UserStyle== */
 @-moz-document domain("www.mangaupdates.com") {
-    /* -- Hide & Minimize */
-    img[src*="increase"],
-    img[src*="decrease"],
-    img[src*="Ftype"] {
+    a[title*="Priority"] img,
+    img[src*="carrot"],
+    #linkList a,
+    #linkList img,
+    a:is([href*="/edit-"], [href*="/-edit/"], [href*="Rm9yIEl"], [href*="Rm9yIExpY2V"], [href*="Rm9yIHNl"], [href*="Rm9yIGF1"], [href*="Rm9yIGd"]) u,
+    a[href="/lists/edit-lists"] b u {
+        opacity: 0;
+        font-size: 0 !important;
+    }
+    img[src*="add.png"],
+    img[src*="Ftype"],
+    img[src*="Fstat_"] {
         display: none;
     }
-    img[src*="down.gif"],
-    img[src*="up.gif"],
-    img[src*="carrot"] {
-        opacity: 0;
-        height: 11px;
-        width: 15px;
-    }
-    a:is([href*="/edit-"], [href*="/-edit/"], [href*="Rm9yIEl"], [href*="Rm9yIHNl"], [href*="Rm9yIGF1"], [href*="Rm9yIGd"]) u,
-    a[href="/lists/edit-lists"] b u {
-        font-size: 0;
-    }
-    /* -- Base Style */
+    .user-info_login_box_padding__hebxc a[href="#"]::after,
+    a:is([href*="edit"], [href*="Rm9y"])::after,
+    #linkList::before,
+    a:has(img[src*="carrot"])::before,
+    .ps-2::before,
     div:has(> :is(a, img)[src*="Ftype"])::before,
-    b:has(+ :is(img[src*="increase"], img[src*="decrease"]))::after,
-    div:has(> a > img[src*="up.gif"])::after,
-    b:has(+ a img[src*="carrot"])::after,
-    a:is([href*="/edit-"], [href*="/-edit/"], [href*="Rm9yIEl"], [href*="Rm9yIHNl"], [href*="Rm9yIGF1"], [href*="Rm9yIGd"], [href="/lists/edit-lists"], [title="Remove from reading list"])::after,
-    div.user-info_login_box_padding__hebxc a[href="#"]::after,
-    a[title^="Raise Priority"]::before,
-    a[title^="Lower Priority"]::before {
+    b:has(+ :is(img[src*="Fstat_"]))::after {
         font-family: "bootstrap-icons";
         font-weight: bold;
-    }
-    b:has(+ :is(img[src*="increase"], img[src*="decrease"]))::after,
-    div:has(> a > img[src*="up.gif"])::after,
-    b:has(+ a img[src*="carrot"])::after {
-        font-size: 1.3rem;
         vertical-align: bottom;
-        text-shadow: 0 0 1px #000, 0 0 1px #000, 0 0 1px #000, 0 0 2px #000;
-        pointer-events: none;
     }
-    div:has(> :is(a, img)[src*="Ftype"])::before {
-        font-size: 1.5rem;
+    #linkList:has(img)::before,
+    .ps-2:has(img)::before,
+    div:has(> :is(a, img)[src*="Ftype"])::before,
+    b:has(+ :is(img[src*="Fstat_"]))::after {
+        -webkit-text-stroke: .025em var(--bs-primary-text-emphasis);
+        color: transparent;
+        background-clip: text;
     }
-    a:is([href*="/edit-"], [href*="/-edit/"], [href*="Rm9yIEl"], [href*="Rm9yIHNl"], [href*="Rm9yIGF1"], [href*="Rm9yIGd"], [href="/lists/edit-lists"], [title="Remove from reading list"])::after,
-    div.user-info_login_box_padding__hebxc a[href="#"]::after {
+    #linkList,
+    a[title*="Priority"],
+    a:has(img[src*="carrot"]) {
+        position: relative;
+    }
+    a[title*="Priority"],
+    a:has(img[src*="carrot"]) {
+        display: inline-block;
+        width: 1.1em;
+        height: 1.1em;
+        vertical-align: -0.15em;
+    }
+    #linkList:has(img)::before,
+    a[title^="Raise Priority"]::before,
+    a[title^="Lower Priority"]::before,
+    a:has(img[src*="carrot"])::before {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        line-height: 1;
+    }
+    a:is([href*="/edit-"], [href*="/-edit/"], [href*="Rm9y"], [href="/lists/edit-lists"], [title="Remove from reading list"])::after {
         font-size: 1rem;
         vertical-align: text-bottom;
-        margin: 4px;
+        margin: 0 4px;
         transition: var(--transition-fast);
         color: var(--mu-text-color-faded);
     }
-    a[title^="Raise Priority"]::before,
-    a[title^="Lower Priority"]::before {
-        font-size: 1.2rem;
-        position: absolute;
-        line-height: 0.9rem;
-    }
-    /* -- Color & Icons*/
+    #linkList:has(img[src*="2Fbig%2Ficon0"])::before,
+    .ps-2:has(img[src*="Ftype0"])::before,
     div:has(> :is(a, img)[src*="Ftype0"])::before {
-        content: "\F43C";
+        content: "\F199";
+        background-image: linear-gradient(var(--mu-background-color-warning), var(--bs-red));
     }
-    div:has(> :is(a, img)[src*="Ftype2"])::before {
-        content: "\F272";
-        color: var(--bs-green);
-    }
-    div:has(> :is(a, img)[src*="Ftype3"])::before {
-        content: "\F17F";
-    }
-    div:has(> :is(a, img)[src*="Ftype4"])::before {
-        content: "\F597";
-    }
+    #linkList:has(img[src*="2Fbig%2Ficon1"])::before,
+    .ps-2:has(img[src*="Ftype1"])::before,
     div:has(> :is(a, img)[src*="Ftype1"])::before {
-        content: "\F63C";
-        text-shadow: 0 0 1px #000, 0 0 2px #000;
-        color: var(--bs-yellow);
+        content: "\F33A";
+        background-image: linear-gradient(var(--bs-warning-border-subtle), var(--bs-warning));
+    }
+    #linkList:has(img[src*="2Fbig%2Ficon2"])::before,
+    .ps-2:has(img[src*="Ftype2"])::before,
+    div:has(> :is(a, img)[src*="Ftype2"])::before {
+        content: "\F26C";
+        background-image: linear-gradient(var(--bs-success-border-subtle), var(--bs-teal));
+    }
+    #linkList:has(img[src*="add.png"])::before {
+        content: "\F19C";
+        background-image: linear-gradient(var(--bs-danger-border-subtle), var(--bs-pink));
+    }
+    #linkList:has(img[src*="2Fbig%2Ficon3"])::before,
+    .ps-2:has(img[src*="Ftype3"])::before,
+    div:has(> :is(a, img)[src*="Ftype3"])::before {
+        content: "\F2D3";
+        background-image: linear-gradient(var(--bs-info-bg-subtle), var(--bs-primary-border-subtle));
+    }
+    #linkList:has(img[src*="2Fbig%2Ficon4"])::before,
+    .ps-2:has(img[src*="Ftype4"])::before,
+    div:has(> :is(a, img)[src*="Ftype4"])::before {
+        content: "\F596";
+        background-image: linear-gradient(var(--bs-info-bg-subtle)30%, var(--bs-secondary-border-subtle));
+    }
+    b:has(+ img[src*="decrease"])::after,
+    a:has(img[src*="carrot_down.gif"])::before,
+    a[title="Lower Priority"]::before {
+        content: "\F229";
     }
     b:has(+ img[src*="increase"])::after,
-    b:has(+ a img[src*="carrot_up.gif"])::after {
+    a:has(img[src*="carrot_up.gif"])::before,
+    a[title="Raise Priority"]::before {
         content: "\F235";
+    }
+    b:has(+ img[src*="increase"])::after,
+    a[title^="Raise Priority"]::before {
         color: var(--mu-background-color-good);
     }
     b:has(+ img[src*="decrease"])::after,
-    b:has(+ a img[src*="carrot_down.gif"])::after {
-        content: "\F229";
+    a[title^="Lower Priority"]::before {
+        color: var(--mu-background-color-warning);
     }
     a[href*="Rm9yIEl"]::after {
         content: "\F3CC";
     }
-    a:is([href*="/edit-"], [href*="/-edit/"])::after,
-    span.releasestitle~span.text a[href*="Rm9yIEl"]::after {
+    a:is([href*="/edit-"], [href*="Rm9yIExpY2V"], [href*="/-edit/"])::after {
         content: "\F4CB";
     }
     a:is([href*="Rm9yIHNl"], [href*="Rm9yIGF1"], [href*="Rm9yIGd"])::after {
         content: "\F4C9";
     }
-    a[href="/lists/edit-lists"]::after {
-        content: "\F3E5";
-    }
-    a[title="Raise Priority by 5"]::before {
-        content: "\F236";
-    }
-    a[title="Raise Priority"]::before {
-        content: "\F235";
-    }
-    a[title="Lower Priority"]::before {
-        content: "\F229";
+    a:is([href="/lists/edit-lists"], [href*="/edit-profile"])::after {
+        content: "\F3E2" !important;
+        font-size: 1.3rem;
     }
     a[title="Lower Priority by 5"]::before {
         content: "\F22A";
     }
-    a[title="Remove from reading list"]::after {
-        content: "\F627";
+    a[title="Raise Priority by 5"]::before {
+        content: "\F236" !important;
     }
     div.user-info_login_box_padding__hebxc a[href="#"]::after {
         content: "\F7EE";
+        padding-left: .5rem;
     }
-    a[title^="Raise Priority"]::before {
-        color: var(--mu-background-color-good);
+    div:has(> :is(a, img)[src*="Ftype"])::before,
+    b:has(+ :is(img[src*="Fstat_"]))::after,
+    a:has(img[src*="carrot_"]) {
+        font-size: 1.5rem;
     }
-    b:has(+ img[src*="decrease"])::after,
-    b:has(+ a img[src*="carrot_down.gif"])::after,
-    a[title^="Lower Priority"]::before,
-    a[title="Remove from reading list"]::after {
-        color: var(--mu-background-color-warning);
+    #linkList:has(img)::before {
+        font-size: 2rem;
     }
-    /* -- Element Specific */
-    div:has(> a > img[src*="up.gif"])::after,
-    b:has(+ a img[src*="carrot"])::after {
-        position: absolute;
-        line-height: 2rem;
+    a:has(img[src*="carrot_"]) {
         color: var(--mu-text-color-highlight) !important;
-    }
-    b:has(+ :is(img[src*="increase"], img[src*="decrease"]))::after {
-        line-height: 1.3rem;
-        margin-left: 0.2rem;
-    }
-    a:is([href*="/edit-"], [href*="/-edit/"], [href*="Rm9yIEl"], [href*="Rm9yIHNl"], [href*="Rm9yIGF1"], [href*="Rm9yIGd"], [href="/lists/edit-lists"], [title="Remove from reading list"]):hover::after,
-    div.user-info_login_box_padding__hebxc a[href="#"]:hover::after {
-        color: var(--mu-text-color-highlight);
-    }
-    div:has(> span.releasestitle) {
-        display: flex;
-        align-items: center;
     }
 }
