@@ -2,9 +2,18 @@
 @name            MU__vanillaEnhanced.user
 @namespace       https://github.com/Reibies
 @author          Reibies
-@updateURL       https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/mangaupdates\MU__vanillaEnhanced.user.css
-@version         1.8
+@updateURL       https://github.com/Reibies/WEB_Userscripts/raw/refs/heads/master/Mangaupdates/MU__vanillaEnhanced.user.css
+@version         1.9
 @description     A very large userstyle to do a couple small tweaks.
+@preprocessor    uso
+@var select      bannerOg "Original Header" {
+    "Visible": "visible",
+    "Hidden": "hidden"
+}
+@var select bannerAlt "BannerStyle" {
+    "Rainbow": "linear-gradient(0deg, transparent 22%, #89c9b5 25%, #89c9b5 35%, #b9df8c 35%, #b9df8c 45%, #f6d8a2 45%, #f6d8a2 55%, #f6b995 55%, #f6b995 65%, #e57880 65%, #e57880 75%, transparent 78%)",
+    "Transparent": "transparent"
+}
 ==/UserStyle== */
 @-moz-document domain("www.mangaupdates.com") {
     /* -- VARIABLES */
@@ -16,31 +25,40 @@
         --mu-background-color-warning: #e57880;
         --mu-background-color-good: #b9df8c;
         --mu-text-color-blue: #89c9b5;
-        --banner-og: visible;
-        --banner-alt: linear-gradient(0deg, transparent 22%, #89c9b5 25%, #89c9b5 35%, #b9df8c 35%, #b9df8c 45%, #f6d8a2 45%, #f6d8a2 55%, #f6b995 55%, #f6b995 65%, #e57880 65%, #e57880 75%, transparent 78%);
+        --banner-og:
+            /*[[bannerOg]]*/
+        ;
+        --banner-alt:
+            /*[[bannerAlt]]*/
+        ;
     }
     /* -- GENERAL */
+    .user-info_login_box_padding__hebxc a[href="#"] {
+        margin: -6px;
+        filter: contrast(1)
+    }
+    .user-info_login_box_padding__hebxc a[href="#"],
+    [class*="button"]:not([class*="field"]),
+    .btn,
+    button.inbox,
     a[href*="/export"],
     .member-info-bar_minfo_bar__Gkohk>.text a[href*="convo"],
-    .member-info-bar_minfo_bar__Gkohk>.text a[href="#"],
-    [class*="button"]:not([class*="field"]),
-    button.inbox,
-    .btn {
+    .member-info-bar_minfo_bar__Gkohk>.text a[href="#"] {
         border: none !important;
         color: var(--mu-text-color-white);
         font-weight: bold;
         border-radius: var(--radius-square);
-        padding: 6px 12px;
+        padding: 3px 5px;
         transition: filter 0.2s ease;
         background-color: var(--mu-text-color-highlight);
     }
-    a[href*="/export"]:hover,
-    .member-info-bar_minfo_bar__Gkohk>.text a[href*="convo"]:hover,
-    .member-info-bar_minfo_bar__Gkohk>.text a[href="#"]:hover,
+    .user-info_login_box_padding__hebxc a[href="#"]:hover,
     [class*="button"]:not([class*="field"]):hover,
     .btn:hover,
-    .button:hover,
-    button:hover {
+    button:hover,
+    a[href*="/export"]:hover,
+    .member-info-bar_minfo_bar__Gkohk>.text a[href*="convo"]:hover,
+    .member-info-bar_minfo_bar__Gkohk>.text a[href="#"]:hover {
         filter: contrast(1.4);
     }
     .member-info-bar_minfo_bar__Gkohk>.text a[href="#"],
@@ -50,14 +68,33 @@
     .column-common_round_border_gradient_left__b4o9O {
         z-index: 1;
         top: 2px;
+        border-right: 2px solid
     }
-    .column-common_right_side_bar__nGOH0 {
-        z-index: 2;
-    }
-    .right-column_right_search_row___pK3m,
-    .column-common_left_right_content_bottom__7AQ3W,
     .table_table_content__C61xr {
         border-top: 0px;
+    }
+    [class*="_side_bar__"].d-md-flex.flex-column * {
+        border: 0px !important;
+    }
+    .center-column_title_column__3Hc5_,
+    .center-column_signup_column__ZiefS {
+        background: linear-gradient(180deg, var(--mu-light-bubble-dark)10px, var(--mu-background-color-darker));
+    }
+    .column-common_round_border_gradient_left__b4o9O {
+        background: var(--mu-light-bubble-dark);
+    }
+    [class*="_side_bar__"].d-md-flex.flex-column {
+        border: 2px solid var(--mu-border-color);
+        border-radius: var(--radius-round) var(--radius-round) 0 0;
+        overflow: hidden;
+        z-index: 1;
+        background: linear-gradient(180deg, var(--mu-light-bubble-light)3px, var(--mu-light-bubble-dark) 20px, var(--mu-background-color-darker) 80vh);
+    }
+    .column-common_right_side_bar__nGOH0 {
+        margin-top: -50px;
+    }
+    [class*="column-common_"]>[class*="column-common_"] {
+        background: none;
     }
     .center-column_title_column__3Hc5_ {
         border-radius: var(--radius-round) 0 0 0;
@@ -66,55 +103,42 @@
     }
     .news-row_news_title__d6TXl,
     .letters_lettersbg__kTeJy,
-    .column-common_round_border_gradient_left__b4o9O::after,
-    .column-common_round_border_gradient_dark__eDpCg::after,
-    .column-common_round_border_gradient__3Aqij::after {
+    [class*="column-common_round_border_gradient"]::after {
         background: none;
     }
     .linked-name_name_underline__QgZKK,
     a,
-    u {
-        text-decoration: none !important;
-    }
+    u,
     a:hover {
         text-decoration: none !important;
     }
-    .text.mt-2.mb-3 {
-        background-color: var(--mu-background-color-alt);
-        border-radius: var(--radius-square);
-        padding: 10px;
-        border: 1px solid var(--mu-border-color);
-    }
+    .text.mt-2.mb-3,
     .low_col2 {
         background-color: var(--mu-background-color-alt);
+        border: 1px solid var(--mu-border-color);
+    }
+    .text.mt-2.mb-3 {
+        border-radius: var(--radius-square);
+        padding: 10px;
+    }
+    .low_col2 {
         border-radius: var(--radius-round);
         padding: 15px;
-        border: 1px solid var(--mu-border-color);
         text-align: left;
     }
     input[type="radio"] {
         accent-color: var(--mu-text-color-highlight);
     }
-    .inbox[type="text"] {
-        background-color: var(--mu-background-color-dark);
-        border: 1px solid var(--mu-background-color-dark);
+    .inbox {
+        background-color: var(--mu-background-color-darker);
+        border: 1px solid var(--mu-background-color-darker);
         border-radius: var(--radius-square);
-        transition: border-color 0.2s ease;
+        transition: all .2s ease
     }
-    main#mu-main .inbox[type="text"],
-    main#mu-main textarea.inbox {
-        background-color: var(--mu-background-color-darker2);
-        border: 1px solid var(--mu-background-color-darker2);
-    }
-    textarea.inbox {
-        border-radius: var(--radius-round);
-        min-height: 50px;
-        min-width: 100px;
-    }
-    .inbox[type="text"]:focus,
-    main#mu-main textarea.inbox:focus {
+    .inbox:focus,
+    textarea.inbox:focus {
         outline: none;
-        border-color: var(--mu-text-color-highlight) !important;
+        border: 1px solid var(--mu-text-color-highlight) !important;
     }
     .info-box_sCat__QFEaH {
         font-size: 0;
@@ -125,14 +149,18 @@
         vertical-align: middle;
     }
     .col-7.offset-1.align-self-center.text-nowrap {
-        background-color: var(--mu-background-color-darker2);
+        background-color: var(--mu-background-color-darker);
         border-radius: var(--radius-square);
         display: flex;
     }
     /*STUB - NAVIGATION*/
-    main#mu-main .col-9.col-md-6.text-md-center.specialtext.text-nowrap a[data-cy="first-page"],
-    main#mu-main .col-9.col-md-6.text-md-center.specialtext.text-nowrap>span:last-child:not(:has(*)) {
-        display: none;
+    li.menu_navtitle___oT9E {
+        background: var(--mu-text-color-highlight);
+        margin-left: -18px;
+        color: white;
+        text-align: center;
+        font-size: 1.3rem;
+        margin-top: -4px;
     }
     a[href^="?page="],
     .page-numbers_current_page__Ct_yX {
@@ -140,32 +168,44 @@
         border-radius: var(--radius-square);
         text-align: center;
         font-size: 15px;
-        background-color: var(--mu-background-color-dark);
         transition: var(--transition-fast);
+        background-color: var(--mu-background-color-dark);
     }
-    a[href^="?page="]:hover {
-        background-color: var(--mu-text-color-highlight);
-        color: var(--mu-text-color-white);
-    }
+    a[href^="?page="]:hover,
     .page-numbers_current_page__Ct_yX {
         background-color: var(--mu-text-color-highlight);
         color: var(--mu-text-color-white);
     }
-    /* STUB - HEADER & FOOTER */
+    /* STUB - HEADER & FOOTER & BG*/
     .footer_footer_background__xlGBt,
     .header-image_top_banner__eqDKD a {
         display: block;
-        background-image: var(--banner-alt) !important;
+        background: var(--banner-alt) !important;
         box-shadow: inset 0 -5px 10px var(--mu-background-color-alt);
-        max-width: 100%;
-        background-size: cover;
     }
     .footer_footer_background__xlGBt img,
     .header-image_top_banner__eqDKD a img:first-child {
         visibility: var(--banner-og);
     }
-    .header-image_top_banner__eqDKD a img {
-        filter: drop-shadow(rgb(0, 0, 0, .5) -2px 1px 2px);
+    .header-image_top_banner__eqDKD a img:not(:first-child) {
+        filter: drop-shadow(max(-.28em, -.28vw) min(.28em, .28vw) min(.2em, .2vw) rgb(from var(--bs-black) r g b / 0.36));
+    }
+    /*FIX - DISCARD*/
+    .right-column_right_sidebar_background__5Ta4y,
+    .member-info_mcard_header_box__Fljot .member-info_mcard_border__oxvtN,
+    .review-row_review_border__wmwhQ,
+    .whats-new-list_alt__GhIhC .mu-markdown_mu_markdown__pqmRi+br,
+    .whats-new-list_alt__GhIhC div>span:has(i)+br,
+    .series-categories-display_vote_legend__Eep7P,
+    .series-categories-voting_category_cancel__KHS4I img,
+    .info-box_sCat__QFEaH+br,
+    .info-box_sContent__CTwJh+br,
+    main#mu-main form>.row:nth-child(12),
+    main#mu-main form>div:has(input[type="radio"])+br,
+    main#mu-main form>.row.g-0+br,
+    main#mu-main .col-9.col-md-6.text-md-center.specialtext.text-nowrap a[data-cy="first-page"],
+    main#mu-main .col-9.col-md-6.text-md-center.specialtext.text-nowrap>span:last-child:not(:has(*)) {
+        display: none;
     }
     /* -- LISTS & SEARCH*/
     div.mt-3:nth-child(4)>span {
@@ -217,6 +257,7 @@
         line-height: 1.3;
         margin: 0.5rem 0;
         display: -webkit-box;
+        line-clamp: 4;
         -webkit-line-clamp: 4;
         -webkit-box-orient: vertical;
         overflow: hidden;
@@ -236,24 +277,16 @@
     main#mu-main>.p-2.pt-2.pb-2.text {
         position: relative;
     }
-    .p-1.col-6:has(a[title="Export this list"]) {
+    a[href*="/export"] {
         position: absolute;
         top: 22px;
         right: 22px;
-        text-align: right;
-        color: var(--mu-text-color-faded);
-        font-weight: bold;
-        letter-spacing: .4px
     }
     a[href*="/export"]::after {
         content: "\F1C3";
         font-family: "bootstrap-icons";
         vertical-align: text-bottom;
         margin-left: .5rem;
-    }
-    a[href*="/export"] {
-        margin: 0 -4px;
-        filter: contrast(1)
     }
     .series-list-table_list_table__H2pQ5 {
         border: 1px solid var(--mu-border-color);
@@ -297,15 +330,14 @@
         border-radius: var(--radius-square);
         padding: 3px 5px;
     }
-    main#mu-main form>.row.g-0:has(.genre-search-selection_gInc__ju_Xq) {
+    main#mu-main form>.row.g-0:has([class*="genre-search-selection_"]) {
         background-color: var(--mu-background-color-dark);
         border: 1px solid var(--mu-border-color);
         border-radius: var(--radius-square);
         padding: .5rem;
         margin-top: .5rem;
     }
-    .genre-search-selection_gInc__ju_Xq,
-    .genre-search-selection_gExc__yMpjp {
+    [class*="genre-search-selection_g"] {
         display: inline-flex;
         justify-content: center;
         align-items: center;
@@ -318,8 +350,7 @@
         border: 1px solid var(--mu-border-color-darker);
         transition: var(--transition-fast);
     }
-    .genre-search-selection_gInc__ju_Xq input[type="checkbox"],
-    .genre-search-selection_gExc__yMpjp input[type="checkbox"] {
+    [class*="genre-search-selection_g"] input[type="checkbox"] {
         appearance: none;
         -webkit-appearance: none;
         margin: 0;
@@ -332,8 +363,7 @@
         opacity: 0;
         z-index: 2;
     }
-    .genre-search-selection_gInc__ju_Xq::before,
-    .genre-search-selection_gExc__yMpjp::before {
+    [class*="genre-search-selection_g"]::before {
         font-weight: bold;
         line-height: 1;
         color: rgb(from var(--mu-text-color) r g b / .6) !important;
@@ -355,14 +385,15 @@
         background-color: var(--mu-background-color-warning) !important;
         border-color: color-mix(in srgb, var(--mu-background-color-warning) 70%, black);
     }
-    main#mu-main form>.row:nth-child(12),
-    main#mu-main form>div:has(input[type="radio"])+br,
-    main#mu-main form>.row.g-0+br {
-        display: none;
-    }
     /* -- SERIES, MANGAKA, PUBLISHER*/
+    .row.g-0>.col-6.p-2.text {
+        width: calc(50% - 0.8rem);
+        margin: 5px;
+    }
     .info-box_sContent__CTwJh {
         overflow: visible;
+        color: var(--mu-text-color-dull);
+        line-height: 1.6;
     }
     .review-by-id_series_image__dDi5P.mu-image_color_transparent__PuYLG,
     .whats-new-list_alt__GhIhC .img-fluid.mu-image_color_transparent__PuYLG,
@@ -378,40 +409,19 @@
         padding: 5px 8px;
         margin-left: 8px;
     }
-    .row.g-0>.col-6.p-2.text:first-of-type {
-        margin-right: 0.5rem;
-    }
-    .row.g-0>.col-6.p-2.text:last-of-type {
-        margin-left: 0.5rem;
-    }
     .row.g-0>.col-6.p-2.text,
     .row.g-0>.col-12.p-2:has(> .info-box_sCat__QFEaH) {
         background-color: var(--mu-background-color-alt);
         border-radius: var(--radius-round);
-        padding: .5rem !important;
     }
     .row.g-0>.col-12.p-2:has(> .info-box_sCat__QFEaH) {
         margin-top: 1rem;
-    }
-    .row.g-0>.col-6.p-2.text {
-        width: calc(50% - 0.5rem);
-    }
-    .info-box_sCat__QFEaH+br,
-    .info-box_sContent__CTwJh+br {
-        display: none;
     }
     .info-box_sCat__QFEaH {
         margin-top: .5rem;
         font-weight: bold;
         border-bottom: 2px solid var(--mu-border-color-light);
         margin-bottom: 0.5rem;
-    }
-    .col-6.p-2.text>.info-box_sCat__QFEaH:first-of-type {
-        margin-top: 0;
-    }
-    .info-box_sContent__CTwJh {
-        color: var(--mu-text-color-dull);
-        line-height: 1.6;
     }
     .series-categories_tags__7WCAU:not(.tag-cloud-display_tags__YdCGj) u {
         display: inline-block;
@@ -524,10 +534,6 @@
         color: var(--mu-text-color);
         display: block;
     }
-    .series-categories-display_vote_legend__Eep7P,
-    .series-categories-voting_category_cancel__KHS4I img {
-        display: none;
-    }
     .series-categories-voting_category_cancel__KHS4I a {
         border-radius: var(--radius-square);
         padding: 4px 8px;
@@ -535,6 +541,7 @@
         font-weight: bold;
         font-size: .8rem;
         display: inline-flex;
+        color: var(--mu-text-color-white);
     }
     .series-categories-voting_category_cancel__KHS4I a:hover {
         filter: contrast(1.3);
@@ -579,13 +586,12 @@
         line-height: 1.5;
         margin: .3em -.2em;
     }
-    main#mu-main .text.p-2 p span a:hover {
+    main#mu-main .text.p-2 p span a:hover,
+    main#mu-main .text.p-2 p span b {
         background-color: var(--mu-text-color-highlight);
         color: var(--mu-text-color-white);
     }
     main#mu-main .text.p-2 p span b {
-        background-color: var(--mu-text-color-highlight);
-        color: var(--mu-text-color-white);
         font-weight: bold;
     }
     .whats-new-list_alt__GhIhC {
@@ -609,45 +615,25 @@
         font-size: 0.85em;
         font-style: normal;
     }
-    .whats-new-list_alt__GhIhC .mu-markdown_mu_markdown__pqmRi+br,
-    .whats-new-list_alt__GhIhC div>span:has(i)+br {
-        display: none;
-    }
     .whats-new-list_alt__GhIhC>.col-md-8>div>span:has(b) {
         font-size: 0.9em;
         color: var(--mu-text-color-dull);
     }
     /* -- NEWS */
-    .news-row_news_container__5VKXY {
-        border: none;
-    }
     #mu-main .news-row_news_container__5VKXY .text.mu-markdown_mu_markdown__pqmRi {
-        padding: 20px !important;
-    }
-    .news-row_news_title__d6TXl {
-        border-radius: 8px 8px 0 0;
-        border: 2px solid var(--mu-border-color);
-        border-bottom: 0;
-        padding: 3px 5px !important;
-        background-color: var(--mu-dark-bubble-dark);
-    }
-    .news-row_news_content__wfeLf {
-        border: 2px solid var(--mu-border-color);
-        border-top: 0;
-        border-bottom: 0;
         padding: 10px !important;
     }
-    .news-row_news_author__NeT2a,
-    .news-row_news_comments__sJA2r {
+    .news-row_news_container__5VKXY * {
+        border: none !important;
+    }
+    .news-row_news_container__5VKXY {
+        border-radius: 8px 8px 0 0;
         border: 2px solid var(--mu-border-color);
-        padding: 3px;
-        color: var(--mu-text-color-dull);
+        overflow: hidden;
     }
-    .news-row_news_comments__sJA2r {
-        border-left: 0px;
-    }
-    .news-row_news_author__NeT2a {
-        border-right: 0px;
+    .news-row_news_title__d6TXl {
+        padding: 3px 5px !important;
+        background-color: var(--mu-dark-bubble-dark);
     }
     /* -- REVIEWS & COMMENTS */
     .review-row_review_header__ADLSV {
@@ -663,53 +649,50 @@
         border: 1px solid var(--mu-border-color-darker);
         border-bottom: none;
     }
-    .review-row_review_border__wmwhQ {
-        display: none;
-    }
-    [class*="review-row_review_box__Tuvad"] {
+    [class*="review-row_review_box__"] {
         background-color: var(--mu-background-color-alt);
         padding: 1rem;
     }
-    [class*="review-row_review_box__Tuvad"]>.row.g-0 {
+    [class*="review-row_review_box__"]>.row.g-0 {
         display: grid;
         grid-template-areas: "title rating" "snippet snippet" "author readmore";
         grid-template-columns: 1fr auto;
         gap: 0.5rem 1rem;
         align-items: center;
     }
-    [class*="review-row_review_box__Tuvad"] [class^="col-"] {
+    [class*="review-row_review_box__"] [class^="col-"] {
         width: auto;
         padding: 0 !important;
     }
-    [class*="review-row_review_box__Tuvad"] .titlesmall {
+    [class*="review-row_review_box__"] .titlesmall {
         grid-area: title;
         font-size: 1.2em;
         font-weight: bold;
         color: var(--mu-text-color);
     }
-    [class*="review-row_review_box__Tuvad"] .titlebig {
+    [class*="review-row_review_box__"] .titlebig {
         font-size: 1.5em;
         color: var(--mu-text-color-white);
         background-color: var(--mu-text-color-highlight);
         border-radius: var(--radius-square);
         line-height: 1;
     }
-    [class*="review-row_review_box__Tuvad"] .text:has(i) {
+    [class*="review-row_review_box__"] .text:has(i) {
         grid-area: snippet;
     }
-    [class*="review-row_review_box__Tuvad"] .col-10.text:not(:has(i)) {
+    [class*="review-row_review_box__"] .col-10.text:not(:has(i)) {
         grid-area: author;
         align-self: end;
         font-size: 0.9em;
         font-style: italic;
         color: var(--mu-text-color-faded);
     }
-    [class*="review-row_review_box__Tuvad"] .text-center:has(a) {
+    [class*="review-row_review_box__"] .text-center:has(a) {
         grid-area: readmore;
         color: transparent;
         align-self: end;
     }
-    [class*="review-row_review_box__Tuvad"] .text-center a {
+    [class*="review-row_review_box__"] .text-center a {
         color: var(--mu-text-color-dull);
         background-color: var(--mu-background-color-dark);
         border: 1px solid var(--mu-border-color);
@@ -718,7 +701,7 @@
         border-radius: var(--radius-square);
         transition: var(--transition-fast);
     }
-    [class*="review-row_review_box__Tuvad"] .text-center a:hover {
+    [class*="review-row_review_box__"] .text-center a:hover {
         color: var(--mu-text-color-white);
         background-color: var(--mu-text-color-highlight);
         border-color: var(--mu-text-color-highlight);
@@ -734,15 +717,6 @@
         display: block;
         content: "";
         margin-top: .4rem;
-    }
-    .mu-markdown_mu_markdown__pqmRi p>strong {
-        display: block;
-        font-size: 1.2em;
-        margin-top: 1.5rem;
-        margin-bottom: 0.5rem;
-        padding-bottom: 0.25rem;
-        border-bottom: 1px solid var(--mu-border-color);
-        color: var(--mu-text-color);
     }
     #comments.titlesmall {
         font-size: 1.5em;
@@ -786,10 +760,6 @@
         line-height: 1.5;
     }
     /* -- USER CONTROL PANEL */
-    main#mu-main .p-1.col-sm-6 form select.inbox {
-        background-color: var(--mu-background-color-darker2);
-        border-radius: var(--radius-square);
-    }
     .color-picker_gbutton__Hi319 {
         background-color: var(--mu-background-color-darker2);
         color: var(--mu-text-color-faded);
@@ -841,9 +811,6 @@
         padding: 1rem 1.25rem !important;
     }
     /* -- MEMBER PAGE */
-    .member-info_mcard_header_box__Fljot .member-info_mcard_border__oxvtN {
-        display: none;
-    }
     .member-info_mcard_header_box__Fljot .member-info_mcard_header__RkDh_ {
         background-color: var(--mu-background-color-dark);
         border-radius: var(--radius-round) var(--radius-round) 0 0;
@@ -875,6 +842,7 @@
 }
 /* PAGE-SPECIFIC STYLES */
 @-moz-document url-prefix("https://www.mangaupdates.com/lists") {
+    /* -- Lists*/
     #mu-main .p-1.col-12.text {
         display: none;
     }
@@ -900,39 +868,52 @@
         display: none;
     }
 }
-@-moz-document url-prefix("https://www.mangaupdates.com/topic/") {
-    /* -- FORUMS*/
+@-moz-document url-prefix("https://www.mangaupdates.com/topic/"),
+url-prefix("https://www.mangaupdates.com/forums") {
+    /* -- FORUMS */
     .forum-common_fcol1__VZ1XW,
     .forum-common_fcol2__kMWnz {
-        border: 0 !important;
+        background: none;
+        border: none !important;
+    }
+    main#mu-main h2 {
+        background-color: var(--mu-background-color-dark);
+        color: var(--mu-text-color);
+        padding: 0.25rem 0.5rem;
+        font-size: 1.25rem;
     }
     .forum-common_frow__RMSTu {
-        border: none;
-        background: none;
+        border: 1px solid var(--mu-border-color);
+        border-radius: var(--radius-round);
+        overflow: hidden;
+        margin-bottom: 1rem;
+    }
+    .forum-common_forum_header__1nQNA {
+        background-color: var(--mu-background-color-dark2);
+        font-weight: bold;
     }
     a.forum-post-row_anchor__qLgmW {
         display: block;
-        margin-top: 1rem;
+        margin-bottom: 1rem;
     }
-    .forum-common_frow__RMSTu>a.forum-post-row_anchor__qLgmW:first-of-type {
-        margin-top: 0;
-    }
+    #mu-main div.p-2.pt-2.pb-2.text .mb-0,
     .forum-common_frow1__u7QuR {
         background-color: var(--mu-background-color-dark);
-        border: 2px solid var(--mu-border-color);
+        border: 1px solid var(--mu-border-color);
         border-bottom: none;
         border-radius: var(--radius-round) var(--radius-round) 0 0;
         padding: .5rem;
     }
+    .forum-common_frow__RMSTu,
     .forum-common_frow2__Rcf33 {
-        border: 2px solid var(--mu-border-color);
+        border: 1px solid var(--mu-border-color);
         border-top: none;
         border-radius: 0 0 var(--radius-round) var(--radius-round);
         overflow: hidden;
     }
     .forum-common_frow2__Rcf33 .forum-common_fcol1__VZ1XW {
         background-color: var(--mu-background-color-alt);
-        border-right: 2px solid var(--mu-border-color);
+        border-right: 1px solid var(--mu-border-color);
         text-align: center;
         font-size: 0.9em;
         color: var(--mu-text-color-dull);
@@ -954,9 +935,7 @@
     .forum-common_frow__RMSTu>div:nth-child(1) {
         display: none;
     }
-    .forum-common_moderator_title__4OOL_,
-    .forum-common_forum_admin_title__n78cI,
-    .forum-common_admin_title__jg0lh {
+    [class*="forum-common_"][class*="_title__"] {
         color: white;
         padding: 2px 6px;
         border-radius: var(--radius-square);
@@ -964,12 +943,55 @@
     .forum-common_admin_title__jg0lh {
         background-color: var(--mu-background-color-warning);
     }
-    .forum-common_forum_admin_title__n78cI,
-    .forum-common_moderator_title__4OOL_ {
+    .forum-common_forum_admin_title__n78cI {
         background-color: var(--mu-background-color-good);
+    }
+    .forum-common_moderator_title__4OOL_ {
+        background-color: var(--mu-text-color-blue);
+    }
+}
+@-moz-document url-prefix("https://www.mangaupdates.com/forums") {
+    /*STUB -  FORUM */
+    .forum-common_frow__RMSTu.mb-2,
+    .forum-common_frow2__Rcf33 {
+        border: none !important;
+    }
+    .forum-common_fcol1__VZ1XW.forum-common_fcol__rCemg.text div i,
+    .forum-common_fcol2__kMWnz {
+        color: var(--mu-text-color-faded) !important
+    }
+    .forum-common_frow_alt__kKls1 a:not(a[title*="Member Info"]) {
+        font-weight: 600
+    }
+    div.row.g-0.forum-common_frow2__Rcf33 {
+        background-color: var(--mu-background-color-alt);
+        padding: 5px;
+        border-radius: var(--radius-round);
+        margin: 0px
+    }
+    .p-1.col-sm-8.forum-common_fcol1__VZ1XW.forum-common_fcol__rCemg div {
+        margin: 0 10px
+    }
+    .forum-common_fcol__rCemg u {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: -1em;
+        margin-top: -1.2em;
+        margin-left: 1em
+    }
+}
+@-moz-document url-prefix("https://www.mangaupdates.com/topic/") {
+    /*STUB -  FORUM Listing*/
+    .forum-common_frow__RMSTu {
+        background: none;
+        border: none !important;
     }
 }
 @-moz-document url-prefix("https://www.mangaupdates.com/author") {
+    /* -- MANGAKA*/
     .row.g-0 .col-md-1:nth-child(6),
     .row.g-0 .col-md-6:nth-child(5),
     .row.g-0 .ps-2:nth-child(4) {
@@ -987,6 +1009,7 @@
     }
 }
 @-moz-document url-prefix("https://www.mangaupdates.com/stats/new") {
+    /* -- NEW*/
     .row.g-0 div.col-12.text main#mu-main div.p-2.pt-2.pb-2.text div.text.p-2 p:nth-child(4) {
         border: 2px solid var(--mu-background-color-darker);
         border-left: none;
