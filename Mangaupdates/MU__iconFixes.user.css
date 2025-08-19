@@ -1,26 +1,26 @@
 /* ==UserStyle==
 @name            MU__iconFixes.user
-@namespace       https://github.com/Reibies
+@namespace       https://github.comcom/Reibies
 @author          Reibies
 @updateURL       https://github.com/Reibies/WEB_Userscripts/raw/refs/heads/master/Mangaupdates/MU__iconFixes.user.css
-@version         1.2
+@version         1.5
 @description     Replaces various text and icon elements to customizable bootstrap ones.
 ==/UserStyle== */
 @-moz-document domain("www.mangaupdates.com") {
+    img[src*="add.png"],
     a[title*="Priority"] img,
     img[src*="carrot"],
-    #linkList a,
     #linkList img,
     a:is([href*="/edit-"], [href*="/-edit/"], [href*="Rm9yIEl"], [href*="Rm9yIExpY2V"], [href*="Rm9yIHNl"], [href*="Rm9yIGF1"], [href*="Rm9yIGd"]) u,
     a[href="/lists/edit-lists"] b u {
         opacity: 0;
         font-size: 0 !important;
     }
-    img[src*="add.png"],
     img[src*="Ftype"],
     img[src*="Fstat_"] {
         display: none;
     }
+    a[title*="Priority"],
     .user-info_login_box_padding__hebxc a[href="#"]::after,
     a:is([href*="edit"], [href*="Rm9y"])::after,
     #linkList::before,
@@ -32,6 +32,8 @@
         font-weight: bold;
         vertical-align: bottom;
     }
+    a[title*="Priority"],
+    a:has(img[src*="carrot"]),
     #linkList:has(img)::before,
     .ps-2:has(img)::before,
     div:has(> :is(a, img)[src*="Ftype"])::before,
@@ -48,17 +50,17 @@
     a[title*="Priority"],
     a:has(img[src*="carrot"]) {
         display: inline-block;
-        width: 1.1em;
-        height: 1.1em;
+        width: 1em;
+        height: 1em;
         vertical-align: -0.15em;
     }
-    #linkList:has(img)::before,
+    #linkList:has(img):not(img[src*="add.png"])::before,
     a[title^="Raise Priority"]::before,
     a[title^="Lower Priority"]::before,
     a:has(img[src*="carrot"])::before {
         position: absolute;
         top: 50%;
-        left: 50%;
+        left: .5rem;
         transform: translate(-50%, -50%);
         line-height: 1;
     }
@@ -145,8 +147,7 @@
         padding-left: .5rem;
     }
     div:has(> :is(a, img)[src*="Ftype"])::before,
-    b:has(+ :is(img[src*="Fstat_"]))::after,
-    a:has(img[src*="carrot_"]) {
+    b:has(+ :is(img[src*="Fstat_"]))::after {
         font-size: 1.5rem;
     }
     #linkList:has(img)::before {
