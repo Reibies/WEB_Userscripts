@@ -30,21 +30,19 @@ Image previews will be within the dropdown arrows.
 - Clicking the bottom area areound the title acts as the checkbox/select the orange border means it's selected
 - Clicking the upper left or right areas expand input for score and current read
 - Native MU variables were used for the colors so if you have css that changes things try and ovveride those
-<img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/GridView_new.png" width="800">
 </details>
+<img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/GridView2.png" width="500">
 
 ### Custom Style Sheets!
 [IconFix](https://github.com/Reibies/WEB_Userscripts/raw/refs/heads/master/Mangaupdates/MU__iconFixes.user.css) /
 [Vanilla Enhanced](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/mangaupdates\MU__vanillaEnhanced.user.css)
-<details>
-<summary>CSS that simply tries to modernize the look of Mangaupdates whithout being an overhaul. WIP. </summary>
+
+- CSS that simply tries to modernize the look of Mangaupdates whithout being an overhaul. WIP.
 - Requirement: Stylus > Manage > Options > Advanced > `Circumvent CSP 'style-src' via adoptedSty­leSheets` enabled
 
 | iconFix | Vanilla Enhanced |
 | --- | --- |
-| <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/iconFix.webp" width="800">   |  <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_VH.webp" width="800">    |
-
-</details>
+| <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/iconFix.webp" width="400">   |  <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_VH.webp" width="400">    |
 
 ---
 
