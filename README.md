@@ -1,5 +1,8 @@
-# Userscripts for the WEB
-These should be used with something like tampermonkey. The arrows are to toggle previews.
+# Userscripts & Styles
+Userscript requirements: [Tampermonkey](https://www.tampermonkey.net/)
+Userstyle/CSS requirements: [Stylus](https://addons.mozilla.org/en-US/firefox/addon/styl-us/)
+
+Image previews will be within the dropdown arrows.
 
 ---
 
@@ -30,11 +33,17 @@ These should be used with something like tampermonkey. The arrows are to toggle 
 <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/GridView_new.png" width="800">
 </details>
 
-### [CSS! Vanilla Enhanced](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/mangaupdates\MU__vanillaEnhanced.user.css)
+### Custom Style Sheets!
+[IconFix](https://github.com/Reibies/WEB_Userscripts/raw/refs/heads/master/Mangaupdates/MU__iconFixes.user.css) /
+[Vanilla Enhanced](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/mangaupdates\MU__vanillaEnhanced.user.css)
 <details>
 <summary>CSS that simply tries to modernize the look of Mangaupdates whithout being an overhaul. WIP. </summary>
-
 - Requirement: Stylus > Manage > Options > Advanced > `Circumvent CSP 'style-src' via adoptedSty­leSheets` enabled
+
+| iconFix | Vanilla Enhanced |
+| --- | --- |
+| <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/iconFix.webp" width="800">   |  <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_VH.webp" width="800">    |
+
 </details>
 
 ---
