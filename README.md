@@ -17,7 +17,7 @@ Image previews will be within the dropdown arrows.
 ### [External Links](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/refs/heads/master/Mangaupdates/MU_Ext_links.user.js)
 <details>
 <summary>Takes all links from description and makes them buttons for easy access/ 2 external site searches</summary>
-<img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/ExtLinks_new.png" width="400">
+<img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_externalLinks.png" width="400">
 </details>
 
 ### [GridView](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/refs/heads/master/Mangaupdates/MU_GridView.user.js)
