@@ -1,14 +1,13 @@
 // ==UserScript==
 // @name         MangaUpdates Hover Preview
-
 // @author       Reibies
 // @namespace    https://github.com/Reibies
-// @downloadURL  https://github.com/Reibies/WEB_Userscripts/raw/refs/head/master/Mangaupdates/MU_hover_cover.user.js
-// @version      1.21
-
-// @description  Show cover image on hover over MangaUpdates series link
+// @downloadURL  https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_hover_cover.user.js
+// @updateURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_hover_cover.user.js
+// @version      1.5
+// @description  Show cover image on hover over MangaUpdates series link, now with edge detection and optimizations.
 // @match        https://www.mangaupdates.com/*
-// @icon         https://www.mangaupdates.com/favicon.ico
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=mangaupdates.com
 // @grant        GM_xmlhttpRequest
 // @connect      api.mangaupdates.com
 // @require      https://code.jquery.com/jquery-3.6.0.min.js
@@ -29,6 +28,7 @@
     let cache = JSON.parse(localStorage.getItem('mangaUpdatesCoverCache')) || {};
     const cooldown = {};
     let currentPreviewLink = null;
+    let previewElement = null;
 
     const updateCache = () => {
         const keys = Object.keys(cache);
@@ -39,14 +39,11 @@
     };
 
     const fetchCoverImage = (seriesId, callback, retryCount = 0) => {
-        if (cache[seriesId] && (Date.now() - cache[seriesId].timestamp < config.COOLDOWN_TIME)) {
+        if (cache[seriesId]) {
             return callback(null, cache[seriesId].url);
         }
 
-        if (cooldown[seriesId]) {
-            const remainingTime = Math.ceil((cooldown[seriesId] - Date.now()) / 1000);
-            return callback(`Cooling down for ${remainingTime} seconds.`);
-        }
+        if (cooldown[seriesId]) return;
 
         cooldown[seriesId] = Date.now() + config.COOLDOWN_TIME;
         setTimeout(() => delete cooldown[seriesId], config.COOLDOWN_TIME);
@@ -61,147 +58,149 @@
                         const imageUrl = image?.url?.original || config.PLACEHOLDER_IMAGE_URL;
                         cache[seriesId] = { url: imageUrl, timestamp: Date.now() };
                         updateCache();
-                        return callback(null, imageUrl);
+                        callback(null, imageUrl);
                     } catch (e) {
-                        return callback("Error parsing response");
+                        callback("Error parsing response");
                     }
                 } else if (response.status === 404) {
                     cache[seriesId] = { url: config.PLACEHOLDER_IMAGE_URL, timestamp: Date.now() };
                     updateCache();
-                    return callback("Image not found");
+                    callback(null, config.PLACEHOLDER_IMAGE_URL);
                 } else if (response.status >= 500 && retryCount < config.RETRY_LIMIT) {
                     setTimeout(() => fetchCoverImage(seriesId, callback, retryCount + 1), config.RETRY_DELAY);
                 } else {
-                    return callback(`Error: ${response.status}`);
+                    callback(`API Error: ${response.status}`);
                 }
             },
-            onerror: () => callback("Unable to fetch image"),
+            onerror: () => callback("Network error"),
         });
     };
 
     const createPreviewElement = () => {
-        let preview = $('#preview-image');
-        if (preview.length === 0) {
-            preview = $('<div id="preview-image"></div>').css({
-                position: 'absolute',
-                zIndex: 1000,
-                border: '1px solid #ccc',
-                background: '#fff',
-                padding: '5px',
-                maxWidth: '200px',
-                maxHeight: '300px',
-                display: 'none',
-                boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
-                borderRadius: '5px',
-            });
-            $('body').append(preview);
-        }
-        return preview;
+        if (previewElement && previewElement.length) return previewElement;
+        previewElement = $('<div id="preview-image"></div>').css({
+            position: 'absolute',
+            zIndex: 1000,
+            border: '1px solid #ccc',
+            background: '#fff',
+            padding: '5px',
+            display: 'none',
+            boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
+            borderRadius: '5px',
+        }).appendTo('body');
+        return previewElement;
     };
 
-    const debounce = (func, wait) => {
-        let timeout;
-        return (...args) => {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(this, args), wait);
-        };
+    const positionPreview = (event) => {
+        if (!previewElement || previewElement.is(':hidden')) return;
+
+        const offset = 15;
+        const viewportWidth = $(window).width();
+        const viewportHeight = $(window).height();
+        const scrollX = $(window).scrollLeft();
+        const scrollY = $(window).scrollTop();
+
+        let top = event.pageY + offset;
+        let left = event.pageX + offset;
+
+        const previewWidth = previewElement.outerWidth();
+        const previewHeight = previewElement.outerHeight();
+
+        if (left + previewWidth > scrollX + viewportWidth) {
+            left = event.pageX - previewWidth - offset;
+        }
+
+        if (top + previewHeight > scrollY + viewportHeight) {
+            top = event.pageY - previewHeight - offset;
+        }
+
+        previewElement.css({ top: `${top}px`, left: `${left}px` });
     };
 
-    const cleanupPreview = () => {
-        const preview = $('#preview-image');
-        if (preview.length) {
-            preview.hide();
-            if (currentPreviewLink) {
-                $(currentPreviewLink).off('mousemove');
-                clearInterval($(currentPreviewLink).data('countdownInterval'));
-                currentPreviewLink = null;
-            }
-        }
+    const updatePreviewContent = (htmlContent, event) => {
+        const preview = createPreviewElement();
+        preview.html(htmlContent).show();
+        positionPreview(event);
     };
 
     const showPreviewImage = function(event) {
         const linkElement = $(this);
         const url = linkElement.attr('href');
 
-        if (url.includes('?act=')) return;
+        if (!url || url.includes('?act=')) return;
 
-        currentPreviewLink = this;
         const seriesId = extractSeriesIdFromUrl(url);
-
         if (!seriesId) return;
 
-        const preview = createPreviewElement();
+        currentPreviewLink = this;
 
-        const updatePreview = (content) => {
-            preview.html(content).css({
-                top: `${event.pageY + 10}px`,
-                left: `${event.pageX + 10}px`,
-                display: 'block'
-            });
-        };
-
-      const refreshCountdown = () => {
-    const remainingTime = Math.ceil((cooldown[seriesId] - Date.now()) / 1000);
-    if (remainingTime > 0) {
-        updatePreview(`<div style="width: 200px; height: 300px; display: flex; justify-content: center; align-items: center;"><span>⚠️ Cooling down for ${remainingTime} seconds</span></div>`);
-    } else {
-        fetchCoverImage(seriesId, (err, imageUrl) => {
-            if (err || !imageUrl) {
-                updatePreview(`<div style="width: 200px; height: 300px; display: flex; justify-content: center; align-items: center;"><span>⚠️ ${err}</span></div>`);
-            } else {
-                updatePreview(`<img src="${imageUrl}" alt="Cover Image" style="max-width: 100%; max-height: 100%;">`);
-            }
-        });
-        clearInterval(linkElement.data('countdownInterval'));
-    }
-};
-
-        if (linkElement.data('countdownInterval')) {
-            clearInterval(linkElement.data('countdownInterval'));
+        if (cooldown[seriesId]) {
+            const remainingTime = Math.ceil((cooldown[seriesId] - Date.now()) / 1000);
+            const message = `<div style="padding: 10px; text-align: center;"><span>⚠️ Cooling down for ${remainingTime}s</span></div>`;
+            updatePreviewContent(message, event);
+            return;
         }
 
-linkElement.data('countdownInterval', setInterval(refreshCountdown, 1000));
-refreshCountdown();
+        const loadingMessage = `<div style="padding: 10px; text-align: center;"><span>Loading...</span></div>`;
+        updatePreviewContent(loadingMessage, event);
 
-        $(this).on('mousemove', debounce((e) => {
-            preview.css({
-                top: `${e.pageY + 10}px`,
-                left: `${e.pageX + 10}px`
-            });
-        }, 10));
+        fetchCoverImage(seriesId, (error, imageUrl) => {
+            if (this !== currentPreviewLink) return;
+
+            let content;
+            if (error) {
+                content = `<div style="padding: 10px; text-align: center;"><span>⚠️ ${error}</span></div>`;
+            } else {
+                content = `<img src="${imageUrl}" alt="Cover Image" style="display: block; max-width: 200px; max-height: 300px; border-radius: 3px;">`;
+            }
+            updatePreviewContent(content, event);
+        });
+
+        linkElement.on('mousemove.preview', (e) => positionPreview(e));
     };
 
     const hidePreviewImage = function() {
-        cleanupPreview();
+        if (previewElement) {
+            previewElement.hide().empty();
+        }
+        if (currentPreviewLink) {
+            $(currentPreviewLink).off('mousemove.preview');
+            currentPreviewLink = null;
+        }
     };
 
     const originalPushState = history.pushState;
-    const originalReplaceState = history.replaceState;
-
     history.pushState = function(...args) {
+        hidePreviewImage();
         originalPushState.apply(this, args);
-        cleanupPreview();
     };
-
+    const originalReplaceState = history.replaceState;
     history.replaceState = function(...args) {
+        hidePreviewImage();
         originalReplaceState.apply(this, args);
-        cleanupPreview();
     };
+    window.addEventListener('popstate', hidePreviewImage);
+    $(document).on('click', hidePreviewImage);
 
-    window.addEventListener('popstate', cleanupPreview);
+    const extractSeriesIdFromUrl = (url) => {
+        try {
+            const base36EncodedId = url.split('/series/')[1].split('/')[0];
+            return parseInt(base36EncodedId, 36);
+        } catch (e) {
+            return null;
+        }
+    };
 
     $(document).ready(() => {
-        $(document).on('click', cleanupPreview);
+        const seriesLinkSelector = 'a[href^="https://www.mangaupdates.com/series/"]:not([href*="/-edit/"])';
 
-        $('body').on('mouseenter', 'a[href^="https://www.mangaupdates.com/series/"]', function(event) {
+        $('body').on('mouseenter', seriesLinkSelector, function(event) {
+            if ($(this).closest('.grid-item').length) {
+                return;
+            }
             showPreviewImage.call(this, event);
         });
 
-        $('body').on('mouseleave', 'a[href^="https://www.mangaupdates.com/series/"]', hidePreviewImage);
+        $('body').on('mouseleave', seriesLinkSelector, hidePreviewImage);
     });
-
-    const extractSeriesIdFromUrl = (url) => {
-        const base36EncodedId = url.split('/')[4];
-        return parseInt(base36EncodedId, 36);
-    };
 })();
