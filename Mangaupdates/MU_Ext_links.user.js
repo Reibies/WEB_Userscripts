@@ -4,7 +4,7 @@
 // @namespace      https://github.com/Reibies
 // @downloadURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_Ext_links.user.js
 // @updateURL      https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_Ext_links.user.js
-// @version        3.0
+// @version        3.1
 // @match          https://www.mangaupdates.com/*
 // @icon           https://www.google.com/s2/favicons?sz=64&domain=mangaupdates.com
 // @description    Adds external links directly below the "Description" header on MU's series info page.
