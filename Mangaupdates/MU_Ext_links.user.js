@@ -128,7 +128,7 @@
         const title = encodeURIComponent(titleElement.innerText.trim());
         const presetPages = [
             { name: "MangaDex", url: `https://mangadex.org/search?q=${title}` },
-            { name: "Comick", url: `https://comick.io/search?q=${title}` }
+            { name: "Batoto", url: `https://batotoo.com/search?word=${title}` }
         ];
 
         const linksContainer = document.createElement('div');
