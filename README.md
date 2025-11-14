@@ -48,10 +48,10 @@ Image previews will be within the dropdown arrows.
 
 ## tumblr
 
-### [Tumblr Blogpack Manager](https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/tumblr%20category%20revison.js)
+### Tumblr Blogpack Manager[Broken and in need of an overhaul]
 <details>
 <summary>Lets you curate your blogpack lists on tumblr a hidden feature that creates custom feeds based on a comma separated list of  usernames.</summary>
-<img src="https://github.com/Reibies/WEB_Userscripts/blob/master/tumblr/firefox_RIUA4Zv8Yn.png" width="400"> <img src="https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/firefox_npczlAcVTd.png" width="400">
+Currently removed until I can properly maintain and fix it but I have not been using tumblr much lately
 </details>
 
 ---
