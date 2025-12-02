@@ -2,7 +2,6 @@
 // @name         MangaUpdates Grid View
 // @author       Reibies
 // @namespace    https://github.com/Reibies
-// @downloadURL  https://github.com/Reibies/WEB_Userscripts/raw/refs/head/master/Mangaupdates/MU_GridView.user.js
 // @version      4.2
 // @description  MangaUpdates grid view for personal and public lists with an optimized, shared cache and modern framework compatibility. Includes auto-healing for broken covers.
 // @icon         https://raw.githubusercontent.com/Reibies/WEB_Userscripts/refs/heads/master/Mangaupdates/Mu-tama.webp
@@ -10,6 +9,8 @@
 // @grant        GM_xmlhttpRequest
 // @grant        GM_addStyle
 // @connect      api.mangaupdates.com
+// @downloadURL  https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_GridView.user.js
+// @updateURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_GridView.user.js
 // ==/UserScript==
 
 (function() {
