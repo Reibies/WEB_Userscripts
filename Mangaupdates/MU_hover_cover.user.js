@@ -2,7 +2,6 @@
 // @name         MangaUpdates Hover Preview
 // @author       Reibies
 // @namespace    https://github.com/Reibies
-// @downloadURL  https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_hover_cover.user.js
 // @version      2.0
 // @description  Show cover image on hover over MangaUpdates series link. Synced with Grid View 4.2 cache.
 // @match        https://www.mangaupdates.com/*
@@ -10,6 +9,8 @@
 // @grant        GM_xmlhttpRequest
 // @grant        GM_addStyle
 // @connect      api.mangaupdates.com
+// @downloadURL  https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_hover_cover.user.js
+// @updateURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/Mangaupdates/MU_hover_cover.user.js
 // ==/UserScript==
 
 (function() {
