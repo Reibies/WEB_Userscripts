@@ -2,8 +2,8 @@
 // @name         MangaUpdates Grid View
 // @author       Reibies
 // @namespace    https://github.com/Reibies
-// @version      4.2
-// @description  MangaUpdates grid view for personal and public lists with an optimized, shared cache and modern framework compatibility. Includes auto-healing for broken covers.
+// @version      4.3
+// @description  MangaUpdates grid view for personal and public lists with an optimized, shared cache and modern framework compatibility.
 // @icon         https://raw.githubusercontent.com/Reibies/WEB_Userscripts/refs/heads/master/Mangaupdates/Mu-tama.webp
 // @match        https://www.mangaupdates.com/*
 // @grant        GM_xmlhttpRequest
@@ -211,12 +211,11 @@
             const isExpired = cached && (Date.now() - cached.timestamp > config.CACHE_TTL);
 
             if (cached && !isExpired) {
-                // Attach error handler BEFORE setting src to catch broken cached links
                 coverImg.onerror = () => {
-                    coverImg.onerror = null; // Prevent infinite loop
-                    delete cache[seriesId]; // Invalidate bad cache
+                    coverImg.onerror = null;
+                    delete cache[seriesId];
                     scheduleCacheWrite();
-                    fetchAndSet(); // Fetch fresh URL
+                    fetchAndSet();
                 };
                 coverImg.src = cached.imageUrl;
             } else {
@@ -251,7 +250,8 @@
             }
         } else {
             if (row.querySelector('.bi-pencil-square')) {
-                const vcContainer = row.querySelector('.series-list-item_lcol4__c1wPK .d-inline:not(.pe-2)');
+                // Selector updated for CSS Modules: Matches both 'series-list-item' (module) and 'lcol4' (component) ignoring hash
+                const vcContainer = row.querySelector('[class*="series-list-item"][class*="lcol4"] .d-inline:not(.pe-2)');
                 if (vcContainer) {
                     const vcClone = vcContainer.cloneNode(true);
                     vcClone.querySelectorAll('a[title*="+"], a[title*="-"]').forEach(el => el.remove());
@@ -261,7 +261,8 @@
                     corner.title = 'Edit Volume/Chapter';
                     corner.dataset.vcText = vcText;
                     const chapter = vcText.match(/c\.([\d\.]+)/i)?.[1];
-                    const unreadCount = row.querySelector('.series-list-item_newlist__neJYV')?.textContent.match(/\d+/)?.[0] || '';
+                    // Selector updated for CSS Modules: Matches 'series-list-item' and 'newlist'
+                    const unreadCount = row.querySelector('[class*="series-list-item"][class*="newlist"]')?.textContent.match(/\d+/)?.[0] || '';
                     corner.innerHTML = (chapter ? `<span class="corner-chapter">${Math.floor(parseFloat(chapter))}</span>` : '') + (unreadCount ? `<span class="corner-highlight">${unreadCount}</span>` : '');
                     corner.addEventListener('click', () => showEditor(gridItem, seriesId, false));
                     gridItem.appendChild(corner);
@@ -293,12 +294,11 @@
 
     const triggerGridUpdate = () => {
         if (document.querySelector('.grid-container')) return; // Already processed
-        const listContainer = document.querySelector('.series-list-table_list_table__H2pQ5, .p-1.col-12.pb-3')?.parentElement;
+        const listContainer = document.querySelector('[class*="series-list-table"][class*="list_table"], .p-1.col-12.pb-3')?.parentElement;
         if (!listContainer || listContainer.dataset.gridProcessed) return;
-        const rows = listContainer.querySelectorAll('.row.g-0[class*="public-list-row"], .series-list-table_list_table__H2pQ5 > .row');
+        const rows = listContainer.querySelectorAll('.row.g-0[class*="public-list-row"], [class*="series-list-table"][class*="list_table"] > .row');
+        
         if (rows.length === 0) return;
-
-        // Debounce the update to avoid React hydration issues
         clearTimeout(gridUpdateTimeout);
         gridUpdateTimeout = setTimeout(() => {
             listContainer.dataset.gridProcessed = "true";
@@ -317,7 +317,8 @@
             const listHeader = document.querySelector('.specialtext.text-start')?.closest('.row.g-0');
             if(listHeader) listHeader.classList.add('mu-grid-hidden');
             containerToHide.parentElement.insertBefore(gridContainer, containerToHide);
-            const bottomPagination = document.querySelector('.page-numbers_current_page__Ct_yX')?.closest('.p-1.col-12.pb-3');
+            const bottomPagination = document.querySelector('[class*="page-numbers"][class*="current_page"]')?.closest('.p-1.col-12.pb-3');
+            
             if (bottomPagination && !document.getElementById('top-pagination-clone')) {
                 const topPaginationClone = bottomPagination.cloneNode(true);
                 topPaginationClone.id = 'top-pagination-clone';
@@ -336,6 +337,7 @@
         }, 250); // 250ms delay to allow React to hydrate
     };
 
+    // Updated target node to be broader to catch Next.js app mounts if ID is missing
     const targetNode = document.querySelector('main#mu-main') || document.body;
     const observer = new MutationObserver(triggerGridUpdate);
     observer.observe(targetNode, { childList: true, subtree: true });
