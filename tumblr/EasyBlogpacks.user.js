@@ -3,8 +3,8 @@
 // @version      1.69
 // @author       Reibies
 // @namespace    https://github.com/Reibies
-// @downloadURL  https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/EasyBlogpacks
-// @updateURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/EasyBlogpacks
+// @downloadURL  https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/EasyBlogpacks.user.js
+// @updateURL    https://raw.githubusercontent.com/Reibies/WEB_Userscripts/master/tumblr/EasyBlogpacks.user.js
 // @description  Manage and route to native Tumblr blogpack feeds natively.
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=tumblr.com
 // @match        *://*.tumblr.com/*
