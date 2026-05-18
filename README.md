@@ -48,10 +48,10 @@ Image previews will be within the dropdown arrows.
 
 ## tumblr
 
-### Tumblr Blogpack Manager[Broken and in need of an overhaul]
+### [Tumblr Blogpack Manager WIP](https://github.com/Reibies/WEB_Userscripts/raw/refs/heads/master/tumblr/EasyBlogpacks.user.js)
 <details>
 <summary>Lets you curate your blogpack lists on tumblr a hidden feature that creates custom feeds based on a comma separated list of  usernames.</summary>
-Currently removed until I can properly maintain and fix it but I have not been using tumblr much lately
+Rewritten again
 </details>
 
 ---
